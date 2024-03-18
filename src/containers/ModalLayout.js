@@ -6,6 +6,8 @@ import AddLeadModalBody from '../features/leads/components/AddLeadModalBody'
 import ConfirmationModalBody from '../features/common/components/ConfirmationModalBody'
 import ConfirmHiddenUserModalBody from '../features/common/components/ConfirmHiddenUserModalBody'
 import EditUserModal from '../features/leads/components/EditUserModal'
+import EditCategoryModal from '../features/productCategories/components/EditCategoryModal'
+import AddNewCategoryModal from '../features/productCategories/components/AddNewCategoryModal'
 
 
 function ModalLayout(){
@@ -36,11 +38,17 @@ function ModalLayout(){
                     {
                              [MODAL_BODY_TYPES.USER_ADD_NEW] : <AddLeadModalBody closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.USER_EDIT] : <EditUserModal closeModal={close} extraObject={extraObject}/>,
-                             [MODAL_BODY_TYPES.CONFIRMATION] : <ConfirmationModalBody extraObject={extraObject} closeModal={close}/>,
                              [MODAL_BODY_TYPES.CONFIRMATION] : <ConfirmHiddenUserModalBody extraObject={extraObject} closeModal={close}/>,
                              [MODAL_BODY_TYPES.DEFAULT] : <div></div>
                     }[bodyType]
-                },
+                }
+                {
+                    {
+                             [MODAL_BODY_TYPES.CATE_EDIT] : <EditCategoryModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.CATE_ADD_NEW] : <AddNewCategoryModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.DEFAULT] : <div></div>
+                    }[bodyType]
+                }
             </div>
             </div>
             </>

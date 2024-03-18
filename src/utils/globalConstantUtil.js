@@ -3,6 +3,9 @@ module.exports = Object.freeze({
     MODAL_BODY_TYPES : {
         USER_DETAIL : "USER_DETAIL",
         USER_ADD_NEW : "USER_ADD_NEW",
+        USER_EDIT: "USER_EDIT",
+        CATE_ADD_NEW : "CATE_ADD_NEW",
+        CATE_EDIT: "CATE_EDIT",
         CONFIRMATION : "CONFIRMATION",
         DEFAULT : "",
     },
@@ -14,6 +17,7 @@ module.exports = Object.freeze({
 
     CONFIRMATION_MODAL_CLOSE_TYPES : {
         LEAD_DELETE : "LEAD_DELETE",
+        CATE_DELETE : "CATE_DELETE",
         USER_HIDDEN: "USER_HIDDEN"
     },
 });

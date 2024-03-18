@@ -3,16 +3,32 @@ import { useDispatch } from 'react-redux';
 import { showNotification } from '../headerSlice';
 import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUtil';
 import { userService } from '../../../services/UserService';
+import { productService } from '../../../services/ProductService';
 
 export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) {
     const dispatch = useDispatch();
-
     const { message, type, index } = extraObject;
     const user_id = index 
     const proceedWithYes = async () => {
         if(type === CONFIRMATION_MODAL_CLOSE_TYPES.USER_HIDDEN){
             userService.hiddenUser(user_id).then((res) => { 
                 dispatch(showNotification({message : "Đã ẩn người dùng thành công", status : 1}))
+            })
+            .catch((err) => { 
+                console.log('err: ', err);
+            })
+        }
+        else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE){
+            userService.deleteUser(user_id).then((res) => { 
+                dispatch(showNotification({message : "Đã xóa người dùng thành công", status : 1}))
+            })
+            .catch((err) => { 
+                console.log('err: ', err);
+            })
+        }
+        else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.CATE_DELETE){
+            productService.deleteCategory(index).then((res) => {
+                dispatch(showNotification({message : res?.data, status : 1}))
             })
             .catch((err) => { 
                 console.log('err: ', err);

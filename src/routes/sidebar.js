@@ -18,9 +18,10 @@ import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
 import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
 import KeyIcon from '@heroicons/react/24/outline/KeyIcon'
 import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon'
+import ShoppingBagIcon from '@heroicons/react/24/outline/ShoppingBagIcon'
 
 const iconClasses = `h-6 w-6`
-const submenuIconClasses = `h-5 w-5`
+const submenuIconClasses = `h-5 w-5`  
 
 const routes = [
 
@@ -33,6 +34,24 @@ const routes = [
     path: '/app/users', // url
     icon: <UsersIcon className={iconClasses}/>, // icon component
     name: 'Người dùng', // name that appear in Sidebar
+  },
+  {
+    path: '', //no url needed as this has submenu
+    icon: <ShoppingBagIcon className={`${iconClasses} inline` }/>, // icon component
+    name: 'Sản phẩm', // name that appear in Sidebar
+    submenu : [
+      {
+        path: '/app/categories',
+        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+        name: 'Danh mục sản phẩm',
+      },
+      {
+        path: '/app/products',
+        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+        name: 'Quản lý sản phẩm',
+      },
+      
+    ]
   },
   {
     path: '/app/transactions', // url

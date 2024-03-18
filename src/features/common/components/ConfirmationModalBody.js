@@ -1,22 +1,25 @@
 import { useDispatch } from 'react-redux';
-import { deleteUser } from '../../leads/leadSlice'; // Import deleteUser action from leadSlice
 import { showNotification } from '../headerSlice';
+import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUtil';
+import { userService } from '../../../services/UserService';
 
 function ConfirmationModalBody({ extraObject, closeModal }) {
+    console.log('closeModal: ', closeModal);
+    console.log('extraObject: ', extraObject);
     const dispatch = useDispatch();
 
     const { message, type, index } = extraObject;
 
     const proceedWithYes = async () => {
-        if (type === 'LEAD_DELETE') {
-            try {
-                await dispatch(deleteUser(index));
-                dispatch(showNotification({ message: 'Đã xóa người dùng!', status: 1 }));
-            } catch (error) {
-                console.error('Error deleting user:', error);
-            }
+        if (type === CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE) {
+            userService.deleteUser(index).then((res) => { 
+                console.log('res: ', res);
+            })
+            .catch((err) => { 
+                console.log('err: ', err);
+
+             })
         }
-        closeModal();
     };
 
     return (

@@ -48,15 +48,18 @@ function Leads(){
     
 
     const getStatus = (index) => {
-        if(index === false)return <div className=" font-medium py-3 px-5 badge badge-accent">Hiện</div>
+        if(index === false)return <div className="font-medium py-3 px-5 badge badge-accent">Hiện</div>
         else return <div className="badge badge-ghost font-medium py-3 px-5">Ẩn</div>
     }
 
+    // const deleteCurrentUser = (index) => {
+    //     dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
+    //     extraObject : { message : `Bạn có muốn xóa người dùng này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
+    // }
     const deleteCurrentUser = (index) => {
         dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Bạn có muốn xóa người dùng này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
     }
-
     const hiddenUsers = (index) => {
         dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Bạn có muốn ẩn người dùng này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.USER_HIDDEN, index}}))
@@ -113,7 +116,7 @@ function Leads(){
                                         <td>{user?.last_login_date == null ? "Chưa cập nhật!" :  moment(user?.last_login_date).format('DD MMM YYYY')}</td>
                                         <td>
                                             <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentUser(user?.user_id)}><TrashIcon className="w-5"/></button>
-                                            <button className="btn btn-square btn-ghost" EditUserModal={user?.user_id} onClick={() => openEditModal(user?.user_id)}><PencilSquareIcon className="w-5"/></button>
+                                            <button className="btn btn-square btn-ghost" onClick={() => openEditModal(user?.user_id)}><PencilSquareIcon className="w-5"/></button>
                                         </td>
                                     </tr>
                                 )
