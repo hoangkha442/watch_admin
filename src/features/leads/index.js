@@ -28,7 +28,6 @@ const TopSideButtons = () => {
 
 function Leads(){
     const [users, setUsers] = useState()
-    const [userId, setUserId] = useState()
     const [currentPage, setCurrentPage] = useState(1);
     const [sizeItem, setSizeItem] = useState(5);
     const dispatch = useDispatch()
@@ -52,10 +51,7 @@ function Leads(){
         else return <div className="badge badge-ghost font-medium py-3 px-5">Ẩn</div>
     }
 
-    // const deleteCurrentUser = (index) => {
-    //     dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
-    //     extraObject : { message : `Bạn có muốn xóa người dùng này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
-    // }
+
     const deleteCurrentUser = (index) => {
         dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Bạn có muốn xóa người dùng này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
@@ -67,12 +63,13 @@ function Leads(){
 
     const openEditModal = (uID) => {
         userService.getUserID(uID).then((res) => { 
-            dispatch(openModal({title : "Chỉnh sửa người dùng", bodyType : MODAL_BODY_TYPES.USER_EDIT, extraObject: res?.data}))
+            dispatch(openModal({title : "Chỉnh sửa người dùng", bodyType : MODAL_BODY_TYPES.PRODUCT_EDIT, extraObject: res?.data}))
         })
         .catch((err) => { 
             console.log('err: ', err);
         })
     }
+
     return(
         <>
             <TitleCard title="Người dùng hiện tại" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>

@@ -46,6 +46,11 @@ const routes = [
         name: 'Danh mục sản phẩm',
       },
       {
+        path: '/app/suppliers',
+        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+        name: 'Nhà cung cấp',
+      },
+      {
         path: '/app/products',
         icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
         name: 'Quản lý sản phẩm',

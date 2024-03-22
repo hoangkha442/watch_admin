@@ -6,6 +6,10 @@ module.exports = Object.freeze({
         USER_EDIT: "USER_EDIT",
         CATE_ADD_NEW : "CATE_ADD_NEW",
         CATE_EDIT: "CATE_EDIT",
+        SUPP_ADD_NEW : "SUPP_ADD_NEW",
+        SUPP_EDIT: "SUPP_EDIT",
+        PRODUCT_EDIT: "PRODUCT_EDIT",
+        PRODUCT_ADD_NEW: "PRODUCT_ADD_NEW",
         CONFIRMATION : "CONFIRMATION",
         DEFAULT : "",
     },
@@ -18,6 +22,9 @@ module.exports = Object.freeze({
     CONFIRMATION_MODAL_CLOSE_TYPES : {
         LEAD_DELETE : "LEAD_DELETE",
         CATE_DELETE : "CATE_DELETE",
-        USER_HIDDEN: "USER_HIDDEN"
+        SUPP_DELETE: "SUPP_DELETE",
+        USER_HIDDEN: "USER_HIDDEN",
+        PRODUCT_HIDDEN: "PRODUCT_HIDDEN",
+        PRODUCT_DELETE: "PRODUCT_DELETE",
     },
 });

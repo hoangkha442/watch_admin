@@ -34,6 +34,30 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
                 console.log('err: ', err);
             })
         }
+        else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.SUPP_DELETE){
+            productService.deleteSupplier(index).then((res) => {
+                dispatch(showNotification({message : res?.data, status : 1}))
+            })
+            .catch((err) => { 
+                console.log('err: ', err);
+            })
+        }
+        else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.PRODUCT_HIDDEN){
+            productService.putHiddendProduct(index).then((res) => {
+                dispatch(showNotification({message : res?.data, status : 1}))
+            })
+            .catch((err) => { 
+                console.log('err: ', err);
+            })
+        }
+        else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.PRODUCT_DELETE){
+            productService.deleteProduct(index).then((res) => {
+                dispatch(showNotification({message : res?.data, status : 1}))
+            })
+            .catch((err) => { 
+                console.log('err: ', err);
+            })
+        }
         closeModal()
     };
 

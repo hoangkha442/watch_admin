@@ -8,6 +8,9 @@ import ConfirmHiddenUserModalBody from '../features/common/components/ConfirmHid
 import EditUserModal from '../features/leads/components/EditUserModal'
 import EditCategoryModal from '../features/productCategories/components/EditCategoryModal'
 import AddNewCategoryModal from '../features/productCategories/components/AddNewCategoryModal'
+import EditSuppModal from '../features/supplier/components/EditSuppModal'
+import AddNewSuppModal from '../features/supplier/components/AddNewSuppModal'
+import EditProductModal from '../features/products/components/EditProductModal'
 
 
 function ModalLayout(){
@@ -46,6 +49,20 @@ function ModalLayout(){
                     {
                              [MODAL_BODY_TYPES.CATE_EDIT] : <EditCategoryModal closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.CATE_ADD_NEW] : <AddNewCategoryModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.DEFAULT] : <div></div>
+                    }[bodyType]
+                }
+                {
+                    {
+                             [MODAL_BODY_TYPES.SUPP_EDIT] : <EditSuppModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.SUPP_ADD_NEW] : <AddNewSuppModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.DEFAULT] : <div></div>
+                    }[bodyType]
+                }
+                {
+                    {
+                             [MODAL_BODY_TYPES.PRODUCT_EDIT] : <EditProductModal closeModal={close} extraObject={extraObject}/>,
+                            //  [MODAL_BODY_TYPES.SUPP_ADD_NEW] : <AddNewSuppModal closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.DEFAULT] : <div></div>
                     }[bodyType]
                 }

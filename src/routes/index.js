@@ -19,6 +19,7 @@ const DocFeatures = lazy(() => import('../pages/DocFeatures'))
 const DocComponents = lazy(() => import('../pages/DocComponents'))
 const Products = lazy(() => import('../pages/protected/Products'))
 const Categories = lazy(() => import('../pages/protected/Categories'))
+const Suppliers = lazy(() => import('../pages/protected/Suppliers'))
 
 const routes = [
   {
@@ -40,6 +41,10 @@ const routes = [
   {
     path: '/categories',
     component: Categories,
+  },
+  {
+    path: '/suppliers',
+    component: Suppliers
   },
   {
     path: '/settings-team',
