@@ -38,7 +38,7 @@ export const productService = {
 
   // Products
   getProduct: () => { 
-    return https.get(`/products`)
+    return https.get(`/product`)
   },
   getProductId: (id) => {
     return https.get(`/product/get-product/${id}`)
@@ -55,8 +55,8 @@ export const productService = {
   putProduct: (id, extraObj) => {
     return https.put(`/product/${id}`, extraObj)
   },
-  putProductPicture: (id) => { 
-    return https.put(`/product/${id}`)
+  putProductPicture: (id, formData) => { 
+    return https.put(`/product/picture/${id}`, formData)
   },
   putHiddendProduct: (id) => {
     return https.put(`/product/hidden-product/${id}`)
@@ -64,7 +64,5 @@ export const productService = {
   deleteProduct: (id) => {
     return https.delete(`/product/${id}`)
   }
-
-
 
 }   

@@ -11,6 +11,7 @@ import AddNewCategoryModal from '../features/productCategories/components/AddNew
 import EditSuppModal from '../features/supplier/components/EditSuppModal'
 import AddNewSuppModal from '../features/supplier/components/AddNewSuppModal'
 import EditProductModal from '../features/products/components/EditProductModal'
+import AddNewProductModal from '../features/products/components/AddNewProductModal'
 
 
 function ModalLayout(){
@@ -62,7 +63,7 @@ function ModalLayout(){
                 {
                     {
                              [MODAL_BODY_TYPES.PRODUCT_EDIT] : <EditProductModal closeModal={close} extraObject={extraObject}/>,
-                            //  [MODAL_BODY_TYPES.SUPP_ADD_NEW] : <AddNewSuppModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.PRODUCT_ADD_NEW] : <AddNewProductModal closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.DEFAULT] : <div></div>
                     }[bodyType]
                 }

@@ -12,7 +12,7 @@ import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
 const TopSideButtons = () => {
     const dispatch = useDispatch()
     const openAddNewLeadModal = () => {
-        dispatch(openModal({title : "Thêm sản phẩm mới", bodyType : MODAL_BODY_TYPES.USER_ADD_NEW}))
+        dispatch(openModal({title : "Thêm sản phẩm mới", bodyType : MODAL_BODY_TYPES.PRODUCT_ADD_NEW}))
     }
     return(
         <div className="inline-block float-right">
@@ -32,6 +32,9 @@ export default function Products() {
         productService.getProductPagination(currentPage, sizeItem).then((res) => { 
             setProducts(res.data)
         }).catch(err => err)
+    }, [])
+    useEffect(() => { 
+        
     }, [currentPage, sizeItem, products])
 
     const getStatus = (index) => {
@@ -70,31 +73,31 @@ export default function Products() {
                     </thead>
                     <tbody>
                     {
-                           products?.data?.map((prd, k) => { 
-                                return(
-                                    <tr key={prd?.product_id}>
-                                        <td>
-                                            <div className="flex items-center space-x-3">
-                                                <div className="avatar">
-                                                    <div className="mask mask-squircle w-20 h-20">
-                                                        {prd?.product_picture == null ? <Avatar icon={<UserOutlined />} /> : <img src={ BASE_URL_IMG_PRD + prd?.product_picture} alt="Avatar" />}
-                                                    </div>
+                        products?.data?.map((prd, k) => { 
+                            return(
+                                <tr key={prd?.product_id}>
+                                    <td>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="avatar">
+                                                <div className="mask mask-squircle w-20 h-20">
+                                                    {prd?.product_picture == null ? <Avatar icon={<UserOutlined />} /> : <img src={ BASE_URL_IMG_PRD + prd?.product_picture} alt="Avatar" />}
                                                 </div>
                                             </div>
-                                        </td>
-                                         <td>{prd?.product_name}</td>
-                                        <td>{prd?.quantity_in_stock}</td>
-                                        <td>{prd?.price}</td>
-                                        <td>
-                                            <button onClick={() => { hiddenUsers(prd?.product_id, prd?.is_visible)}}>{getStatus(prd?.is_visible)}</button>
-                                        </td>
-                                       <td>
-                                            <button className="btn btn-square btn-ghost" onClick={() => deleteCurentProduct(prd?.product_id, prd?.product_name)}><TrashIcon className="w-5"/></button>
-                                            <button className="btn btn-square btn-ghost" onClick={() => openEditModal(prd?.product_id)}><PencilSquareIcon className="w-5"/></button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
+                                        </div>
+                                    </td>
+                                     <td>{prd?.product_name}</td>
+                                    <td>{prd?.quantity_in_stock}</td>
+                                    <td>{prd?.price}</td>
+                                    <td>
+                                        <button onClick={() => { hiddenUsers(prd?.product_id, prd?.is_visible)}}>{getStatus(prd?.is_visible)}</button>
+                                    </td>
+                                   <td>
+                                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurentProduct(prd?.product_id, prd?.product_name)}><TrashIcon className="w-5"/></button>
+                                        <button className="btn btn-square btn-ghost" onClick={() => openEditModal(prd?.product_id)}><PencilSquareIcon className="w-5"/></button>
+                                    </td>
+                                </tr>
+                            )
+                        })
                         }
                     </tbody>
                 </table>
