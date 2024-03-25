@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { openModal } from '../common/modalSlice'
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import TitleCard from '../../components/Cards/TitleCard'
 import { productService } from '../../services/ProductService'
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
+import { fetchSuppliers } from '../supplier/supplierSlice'
+import { fetchCategories } from './categorySlice'
 const TopSideButtons = () => {
 
     const dispatch = useDispatch()
@@ -21,14 +23,19 @@ const TopSideButtons = () => {
     )
 }
 export default function Categories() {
-    const [category, setCategory] = useState()
-    const dispatch = useDispatch()
-    useEffect(() => { 
-        productService.getCategory().then((res) => { 
-            setCategory(res?.data)
-        })
-        .catch(() => {  })
-    } ,[category])
+    // const [category, setCategory] = useState()
+    const dispatch = useDispatch();
+    const categories = useSelector((state) => state.categories.categories);
+    const status = useSelector((state) => state.categories.status);
+    const error = useSelector((state) => state.categories.error);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchCategories());
+        }
+    }, [status, dispatch]);
+    const category = useSelector((state) => state.categories.categories)
+    // console.log('categories: ', category);
     const deleteCurrentCategory = (index) => {
         dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Bạn có muốn xóa danh mục này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.CATE_DELETE, index}}))

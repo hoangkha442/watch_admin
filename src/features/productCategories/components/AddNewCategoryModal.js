@@ -4,6 +4,7 @@ import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
 import { productService } from "../../../services/ProductService"
+import { fetchCategories } from "../categorySlice"
 
 const INITIAL_CATE_OBJ = {
     category_name : "",
@@ -27,6 +28,7 @@ function AddNewCategoryModal({closeModal}){
             let {category_name, description} = newcateObj
             productService.postCategory({category_name, description}).then((res) => { 
                 dispatch(showNotification({message : res?.data, status : 1}))
+                dispatch(fetchCategories());
                 closeModal()
             })
             .catch((err) => { 

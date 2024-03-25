@@ -4,6 +4,7 @@ import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
 import { productService } from "../../../services/ProductService"
+import { fetchSuppliers } from "../supplierSlice"
 
 const INITIAL_SUPP_OBJ = {
     supplier_name : "",
@@ -35,6 +36,7 @@ function AddNewSuppModal({closeModal}){
             }
             productService.postSupplier({...newsuppObj}).then((res) => { 
                 dispatch(showNotification({message : res?.data, status : 1}))
+                dispatch(fetchSuppliers());
                 closeModal()
             }).catch((err) => { })
         }

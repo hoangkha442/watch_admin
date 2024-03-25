@@ -5,6 +5,7 @@ import InputText from '../../../components/Input/InputText';
 import ErrorText from '../../../components/Typography/ErrorText';
 import { showNotification } from '../../common/headerSlice';
 import { productService } from '../../../services/ProductService';
+import { fetchSuppliers } from '../supplierSlice';
 
 export default function EditSuppModal({ closeModal, extraObject }) {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ export default function EditSuppModal({ closeModal, extraObject }) {
         productService.putSupplier(extraObject.supplier_id, newSupp)
             .then((res) => {
                 dispatch(showNotification({ message: res?.data, status: 1 }));
+                dispatch(fetchSuppliers());
                 closeModal();
             })
             .catch((err) => {

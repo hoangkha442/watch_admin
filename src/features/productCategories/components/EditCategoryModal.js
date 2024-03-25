@@ -5,6 +5,7 @@ import InputText from '../../../components/Input/InputText';
 import ErrorText from '../../../components/Typography/ErrorText';
 import { showNotification } from '../../common/headerSlice';
 import { productService } from '../../../services/ProductService';
+import { fetchCategories } from '../categorySlice';
 
 export default function EditCategoryModal({ closeModal, extraObject }) {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export default function EditCategoryModal({ closeModal, extraObject }) {
         productService.upateCategory(extraObject.category_id, newCate)
             .then((res) => {
                 dispatch(showNotification({ message: res?.data, status: 1 }));
+                dispatch(fetchCategories());
                 closeModal();
             })
             .catch((err) => {

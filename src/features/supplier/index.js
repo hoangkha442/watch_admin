@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { openModal } from '../common/modalSlice'
 import TitleCard from '../../components/Cards/TitleCard'
 import { productService } from '../../services/ProductService'
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
+import { fetchSuppliers } from './supplierSlice'
 
 
 const TopSideButtons = () => {
@@ -21,12 +22,10 @@ const TopSideButtons = () => {
 }
 export default function Suppliers() {
     const dispatch = useDispatch()
-    const [supplier, setSupplier] = useState()
-    useEffect(() => { 
-        productService.getSupplier().then((res) => { 
-            setSupplier(res.data)
-        }).catch((err) => {  })
-    }, [supplier])
+    useEffect(() => {
+        dispatch(fetchSuppliers());
+    }, [dispatch]);
+    const supplier = useSelector((state) => state.suppliers.suppliers)
     const deleteCurrentSupplier = (index, name) => {
         dispatch(openModal({title : "Xóa nhà cung cấp", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Bạn có muốn xóa nhà cung cấp ${name} không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.SUPP_DELETE, index}}))

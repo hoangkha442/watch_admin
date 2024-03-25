@@ -5,6 +5,8 @@ import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUti
 import { userService } from '../../../services/UserService';
 import { productService } from '../../../services/ProductService';
 import { fetchProducts } from '../../products/AsyncThunkAction';
+import { fetchSuppliers } from '../../supplier/supplierSlice';
+import { fetchCategories } from '../../productCategories/categorySlice';
 
 export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) {
     const dispatch = useDispatch();
@@ -31,6 +33,7 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
         else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.CATE_DELETE){
             productService.deleteCategory(index).then((res) => {
                 dispatch(showNotification({message : res?.data, status : 1}))
+                dispatch(fetchCategories());
             })
             .catch((err) => { 
                 console.log('err: ', err);
@@ -39,6 +42,7 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
         else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.SUPP_DELETE){
             productService.deleteSupplier(index).then((res) => {
                 dispatch(showNotification({message : res?.data, status : 1}))
+                dispatch(fetchSuppliers());
             })
             .catch((err) => { 
                 console.log('err: ', err);
