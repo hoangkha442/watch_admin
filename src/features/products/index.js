@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { openModal } from '../common/modalSlice'
 import TitleCard from '../../components/Cards/TitleCard'
@@ -9,6 +9,8 @@ import { Avatar, Pagination } from 'antd'
 import { BASE_URL_IMG_PRD } from '../../services/config'
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
+import { fetchProducts } from './AsyncThunkAction'
+import { setCurrentPage } from './productSlice'
 const TopSideButtons = () => {
     const dispatch = useDispatch()
     const openAddNewLeadModal = () => {
@@ -21,27 +23,21 @@ const TopSideButtons = () => {
     )
 }
 export default function Products() {
-    const [products, setProducts] = useState()
-    const [currentPage, setCurrentPage] = useState(1);
+    const currentPage = useSelector((state) => state.products.currentPage);
     const [sizeItem, setSizeItem] = useState(4);
+    const products = useSelector((state) => state.products.products);
     const dispatch = useDispatch()
     const onChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+        dispatch(setCurrentPage(pageNumber));
     };
-    useEffect(() => { 
-        productService.getProductPagination(currentPage, sizeItem).then((res) => { 
-            setProducts(res.data)
-        }).catch(err => err)
-    }, [])
-    useEffect(() => { 
-        
-    }, [currentPage, sizeItem, products])
-
+    useEffect(() => {
+        dispatch(fetchProducts({ currentPage, sizeItem }));
+    }, [dispatch, currentPage]);
     const getStatus = (index) => {
         if(index === false)return <div className="font-medium py-3 px-5 badge badge-accent">Hiện</div>
         else return <div className="badge badge-ghost font-medium py-3 px-5">Ẩn</div>
     }
-    const hiddenUsers = (index, is_visible) => {
+    const hiddendProduct = (index, is_visible) => {
         dispatch(openModal({title : `${is_visible === false ? "Hiện sản phẩm" : "Ẩn sản phẩm"}`, bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message :  `${is_visible === false ? "Bạn có muốn hiện sản phẩm này không?" : "bạn có muốn ẩn sản phẩm này không?"}`, type : CONFIRMATION_MODAL_CLOSE_TYPES.PRODUCT_HIDDEN, index}}))
     }
@@ -89,7 +85,7 @@ export default function Products() {
                                     <td>{prd?.quantity_in_stock}</td>
                                     <td>{prd?.price}</td>
                                     <td>
-                                        <button onClick={() => { hiddenUsers(prd?.product_id, prd?.is_visible)}}>{getStatus(prd?.is_visible)}</button>
+                                        <button onClick={() => { hiddendProduct(prd?.product_id, prd?.is_visible)}}>{getStatus(prd?.is_visible)}</button>
                                     </td>
                                    <td>
                                         <button className="btn btn-square btn-ghost" onClick={() => deleteCurentProduct(prd?.product_id, prd?.product_name)}><TrashIcon className="w-5"/></button>

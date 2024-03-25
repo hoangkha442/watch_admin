@@ -1,12 +1,14 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showNotification } from '../headerSlice';
 import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUtil';
 import { userService } from '../../../services/UserService';
 import { productService } from '../../../services/ProductService';
+import { fetchProducts } from '../../products/AsyncThunkAction';
 
 export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) {
     const dispatch = useDispatch();
+    const currentPage = useSelector((state) => state.products.currentPage);
     const { message, type, index } = extraObject;
     const user_id = index 
     const proceedWithYes = async () => {
@@ -45,6 +47,7 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
         else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.PRODUCT_HIDDEN){
             productService.putHiddendProduct(index).then((res) => {
                 dispatch(showNotification({message : res?.data, status : 1}))
+                dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
             })
             .catch((err) => { 
                 console.log('err: ', err);
@@ -53,6 +56,7 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
         else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.PRODUCT_DELETE){
             productService.deleteProduct(index).then((res) => {
                 dispatch(showNotification({message : res?.data, status : 1}))
+                dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
             })
             .catch((err) => { 
                 console.log('err: ', err);

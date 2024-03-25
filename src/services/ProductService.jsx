@@ -1,7 +1,6 @@
 import { https } from "./config";
 
 export const productService = {
-
   //CATEGORY 
   getCategory : () => { 
     return https.get('/category')
