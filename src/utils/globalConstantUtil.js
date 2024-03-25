@@ -24,6 +24,7 @@ module.exports = Object.freeze({
         CATE_DELETE : "CATE_DELETE",
         SUPP_DELETE: "SUPP_DELETE",
         USER_HIDDEN: "USER_HIDDEN",
+        USER_DELETE: "USER_DELETE",
         PRODUCT_HIDDEN: "PRODUCT_HIDDEN",
         PRODUCT_DELETE: "PRODUCT_DELETE",
     },

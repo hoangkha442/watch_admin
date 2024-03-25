@@ -11,15 +11,16 @@ import { fetchProducts } from '../AsyncThunkAction';
 export default function EditProductModal({ closeModal, extraObject }) {
   const dispatch = useDispatch();
   const currentPage = useSelector((state) => state.products.currentPage);
+
   const [file, setFile] = useState(null)
   const [productObj, setProductObj] = useState({
-    product_name: extraObject1.product_name || '',
-    description: extraObject1.description || '',
-    price: String(extraObject1.price) || '',
-    quantity_in_stock: String(extraObject1.quantity_in_stock) || '',
+    product_name: extraObject[0].product_name || '',
+    description: extraObject[0].description || '',
+    price: String(extraObject[0].price) || '',
+    quantity_in_stock: String(extraObject[0].quantity_in_stock) || '',
   });
   const [errorMessage, setErrorMessage] = useState('');
-  const extraObject1 = extraObject[0];
+  // const extraObject[0] = extraObject[0];
 
   const updateFormValue = ({ updateType, value }) => {
     setErrorMessage('');
@@ -37,15 +38,15 @@ export default function EditProductModal({ closeModal, extraObject }) {
     }
     try {
       const newProduct = {
-        ...extraObject1,
+        ...extraObject[0],
         product_name: productObj.product_name,
         description: productObj.description,
         price: Number(productObj.price),
         quantity_in_stock: Number(productObj.quantity_in_stock),
       };
 
-      await productService.putProduct(extraObject1.product_id, newProduct);
-      await uploadProductImageIfPresent(file, extraObject1.product_id);
+      await productService.putProduct(extraObject[0].product_id, newProduct);
+      await uploadProductImageIfPresent(file, extraObject[0].product_id);
   
       dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
       dispatch(showNotification({ message: 'Cập nhật sản phẩm thành công!', status: 1 }));

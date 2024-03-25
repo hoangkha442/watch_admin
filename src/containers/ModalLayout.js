@@ -2,16 +2,15 @@ import { useEffect } from 'react'
 import { MODAL_BODY_TYPES } from '../utils/globalConstantUtil'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeModal } from '../features/common/modalSlice'
-import AddLeadModalBody from '../features/leads/components/AddLeadModalBody'
-import ConfirmationModalBody from '../features/common/components/ConfirmationModalBody'
 import ConfirmHiddenUserModalBody from '../features/common/components/ConfirmHiddenUserModalBody'
-import EditUserModal from '../features/leads/components/EditUserModal'
+import EditUserModal from '../features/users/components/EditUserModal'
 import EditCategoryModal from '../features/productCategories/components/EditCategoryModal'
 import AddNewCategoryModal from '../features/productCategories/components/AddNewCategoryModal'
 import EditSuppModal from '../features/supplier/components/EditSuppModal'
 import AddNewSuppModal from '../features/supplier/components/AddNewSuppModal'
 import EditProductModal from '../features/products/components/EditProductModal'
 import AddNewProductModal from '../features/products/components/AddNewProductModal'
+import AddUserModalBody from '../features/users/components/AddNewUserModal'
 
 
 function ModalLayout(){
@@ -40,7 +39,7 @@ function ModalLayout(){
                 {/* Loading modal body according to different modal type */}
                 {
                     {
-                             [MODAL_BODY_TYPES.USER_ADD_NEW] : <AddLeadModalBody closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.USER_ADD_NEW] : <AddUserModalBody closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.USER_EDIT] : <EditUserModal closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.CONFIRMATION] : <ConfirmHiddenUserModalBody extraObject={extraObject} closeModal={close}/>,
                              [MODAL_BODY_TYPES.DEFAULT] : <div></div>

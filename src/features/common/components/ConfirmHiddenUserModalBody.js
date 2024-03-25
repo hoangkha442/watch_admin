@@ -7,24 +7,29 @@ import { productService } from '../../../services/ProductService';
 import { fetchProducts } from '../../products/AsyncThunkAction';
 import { fetchSuppliers } from '../../supplier/supplierSlice';
 import { fetchCategories } from '../../productCategories/categorySlice';
+import { fetchUsers } from '../../users/userSlice';
 
 export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) {
     const dispatch = useDispatch();
-    const currentPage = useSelector((state) => state.products.currentPage);
+    const currentPageProduct = useSelector((state) => state.products.currentPage);
+    const currentPageUsers = useSelector((state) => state.users.currentPage);
+
     const { message, type, index } = extraObject;
     const user_id = index 
     const proceedWithYes = async () => {
         if(type === CONFIRMATION_MODAL_CLOSE_TYPES.USER_HIDDEN){
             userService.hiddenUser(user_id).then((res) => { 
                 dispatch(showNotification({message : "Đã ẩn người dùng thành công", status : 1}))
+                dispatch(fetchUsers({ currentPage: currentPageUsers, sizeItem: 5}))
             })
             .catch((err) => { 
                 console.log('err: ', err);
             })
         }
-        else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE){
+        else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.USER_DELETE){
             userService.deleteUser(user_id).then((res) => { 
                 dispatch(showNotification({message : "Đã xóa người dùng thành công", status : 1}))
+                dispatch(fetchUsers({ currentPage: currentPageUsers, sizeItem: 5}))
             })
             .catch((err) => { 
                 console.log('err: ', err);
@@ -51,7 +56,7 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
         else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.PRODUCT_HIDDEN){
             productService.putHiddendProduct(index).then((res) => {
                 dispatch(showNotification({message : res?.data, status : 1}))
-                dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
+                dispatch(fetchProducts({ currentPage: currentPageProduct, sizeItem: 4 }));
             })
             .catch((err) => { 
                 console.log('err: ', err);
@@ -60,7 +65,7 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
         else if(type === CONFIRMATION_MODAL_CLOSE_TYPES.PRODUCT_DELETE){
             productService.deleteProduct(index).then((res) => {
                 dispatch(showNotification({message : res?.data, status : 1}))
-                dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
+                dispatch(fetchProducts({ currentPage: currentPageProduct, sizeItem: 4 }));
             })
             .catch((err) => { 
                 console.log('err: ', err);

@@ -6,6 +6,7 @@ import leadsSlice from '../features/leads/leadSlice'
 import productReducer from '../features/products/productSlice';
 import supplierReducer from '../features/supplier/supplierSlice';
 import categoryReducer from '../features/productCategories/categorySlice';
+import userReducer from '../features/users/userSlice';
 const combinedReducer = {
   header : headerSlice,
   rightDrawer : rightDrawerSlice,
@@ -14,6 +15,7 @@ const combinedReducer = {
   products: productReducer,
   suppliers: supplierReducer,
   categories: categoryReducer,
+  users: userReducer,
 }
 
 export default configureStore({

@@ -1,12 +1,10 @@
-// EditUserModal.js
-import React, { useEffect, useRef, useState } from 'react';
+import React, {  useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InputText from '../../../components/Input/InputText';
 import ErrorText from '../../../components/Typography/ErrorText';
 import { showNotification } from '../../common/headerSlice';
-// import { leadservice } from '../../../services/leadservice';
 import { userService } from '../../../services/UserService';
-// import { fetchUsers } from '../userSlice';
+import { fetchUsers } from '../userSlice';
 
 export default function EditUserModal({ closeModal, extraObject }) {
   const currentPage = useSelector((state) => state.users.currentPage);
@@ -55,7 +53,7 @@ export default function EditUserModal({ closeModal, extraObject }) {
         userService.updateUser(extraObject.user_id, newUser)
             .then((res) => {
                 dispatch(showNotification({ message: 'Chỉnh sửa thông tin người dùng thành công!', status: 1 }));
-                // dispatch(fetchUsers({ currentPage, sizeItem: 5 }));
+                dispatch(fetchUsers({ currentPage, sizeItem: 5 }));
                 closeModal(); // Close modal upon successful operation
             })
             .catch((err) => {
