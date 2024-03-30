@@ -8,6 +8,8 @@ import supplierReducer from '../features/supplier/supplierSlice';
 import categoryReducer from '../features/productCategories/categorySlice';
 import userReducer from '../features/users/userSlice';
 import transactionReducer from '../features/transactions/transactionSlice';
+import orderReducer from '../features/orders/orderSlice';
+import orderNYPReducer from '../features/ordersNotYetProcessed/orderNYSlice';
 const combinedReducer = {
   header : headerSlice,
   rightDrawer : rightDrawerSlice,
@@ -18,6 +20,8 @@ const combinedReducer = {
   categories: categoryReducer,
   users: userReducer,
   transactions: transactionReducer,
+  orders: orderReducer,
+  orderNYP: orderNYPReducer
 }
 
 export default configureStore({

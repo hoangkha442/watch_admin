@@ -13,19 +13,63 @@ import DashboardTopBar from './components/DashboardTopBar'
 import { useDispatch } from 'react-redux'
 import {showNotification} from '../common/headerSlice'
 import DoughnutChart from './components/DoughnutChart'
-import { useState } from 'react'
-
-const statsData = [
-    {title : "New Users", value : "34.7k", icon : <UserGroupIcon className='w-8 h-8'/>, description : "↗︎ 2300 (22%)"},
-    {title : "Total Sales", value : "$34,545", icon : <CreditCardIcon className='w-8 h-8'/>, description : "Current month"},
-    {title : "Pending Leads", value : "450", icon : <CircleStackIcon className='w-8 h-8'/>, description : "50 in hot leads"},
-    {title : "Active Users", value : "5.6k", icon : <UsersIcon className='w-8 h-8'/>, description : "↙ 300 (18%)"},
-]
-
+import { useEffect, useState } from 'react'
+import { userService } from '../../services/UserService'
+import { productService } from '../../services/ProductService'
 
 
 function Dashboard(){
+    const [user, setUser] = useState()
+    const [order, setOrder] = useState()
+    const [totalOrder, setTotalOrder] = useState()
+    const [countOrderByUserId, setCountOrderByUserId] = useState()
+    const [totalAmount, setTotalAmount] = useState()
+    const [admin, setAdmin] = useState()
+    const [customer, setCustomer] = useState()
+    useEffect(() => { 
+        userService.getUser().then((res) => { 
+            setUser(res.data)
+            let adminCount = 0;
+            let customerCount = 0;
+            res.data.forEach(user => {
+                if (user.role === 'admin') {
+                  adminCount++;
+                } else if (user.role === 'customer') {
+                  customerCount++;
+                }
+            });
+            setAdmin(adminCount)
+            setCustomer(customerCount)
+         })
+        productService.getOrder().then((res) => { 
 
+            setTotalOrder(res.data)
+
+
+            let sumDelivered = res.data.reduce((sum, order) => {
+                return order.status === 'delivered' ? sum + order.total_amount : sum;
+            }, 0);
+            setTotalAmount(sumDelivered)
+
+            let filteredOrders = res.data.filter(order => order.status !== 'delivered');
+            setOrder(filteredOrders)
+
+            let uniqueUserIds = new Set();
+            res.data.forEach(order => {
+                uniqueUserIds.add(order.user_id);
+            });
+            let uniqueUserIdsCount = uniqueUserIds.size;
+            setCountOrderByUserId(uniqueUserIdsCount)
+
+
+         })
+    }, [])
+    const statsData = [
+        {title : "Tổng người dùng", value : user?.length, icon : <UserGroupIcon className='w-8 h-8'/>, description : `${admin} Admin - ${customer} Customer`},
+        {title : "Tổng doanh thu", value : totalAmount, icon : <CreditCardIcon className='w-8 h-8'/>, description : "Tháng này"},
+        {title : "Đang chờ xử lí", value : order?.length, icon : <CircleStackIcon className='w-8 h-8'/>, description : `Trên ${totalOrder?.length} đơn hàng`},
+        {title : "Người dùng đã order", value : countOrderByUserId, icon : <UsersIcon className='w-8 h-8'/>, description : "↙ 300 (18%)"},
+    ]
     const dispatch = useDispatch()
  
 
@@ -37,7 +81,7 @@ function Dashboard(){
     return(
         <>
         {/** ---------------------- Select Period Content ------------------------- */}
-            <DashboardTopBar updateDashboardPeriod={updateDashboardPeriod}/>
+            {/* <DashboardTopBar updateDashboardPeriod={updateDashboardPeriod}/> */}
         
         {/** ---------------------- Different stats content 1 ------------------------- */}
             <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6">

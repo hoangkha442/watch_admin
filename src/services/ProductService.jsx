@@ -73,8 +73,20 @@ export const productService = {
   },
 
   // ORDER_DETAIL
+  getOrderDetail : () => {
+    return https.get(`/order-detail`)
+  },
   getOrderDetailId : (id) => {
     return https.get(`/order-detail/user/${id}`)
-  }
+  },
 
+  // ORDER
+  getOrder: () => { 
+    return https.get(`/order`)
+  },
+
+  // SHIPPING
+  getShipping: () => { 
+    return https.get(`/shipping-details`)  
+  }
 }   

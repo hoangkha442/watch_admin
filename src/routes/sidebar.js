@@ -31,14 +31,14 @@ const routes = [
     name: 'Dashboard',
   },
   {
-    path: '/app/users', // url
-    icon: <UsersIcon className={iconClasses}/>, // icon component
-    name: 'Người dùng', // name that appear in Sidebar
+    path: '/app/users', 
+    icon: <UsersIcon className={iconClasses}/>, 
+    name: 'Người dùng',
   },
   {
     path: '', //no url needed as this has submenu
-    icon: <ShoppingBagIcon className={`${iconClasses} inline` }/>, // icon component
-    name: 'Sản phẩm', // name that appear in Sidebar
+    icon: <ShoppingBagIcon className={`${iconClasses} inline` }/>, 
+    name: 'Sản phẩm',
     submenu : [
       {
         path: '/app/categories',
@@ -59,30 +59,47 @@ const routes = [
     ]
   },
   {
-    path: '/app/transactions', // url
-    icon: <CurrencyDollarIcon className={iconClasses}/>, // icon component
-    name: 'Giao dịch', // name that appear in Sidebar
+    path: '/app/transactions', 
+    icon: <CurrencyDollarIcon className={iconClasses}/>, 
+    name: 'Giao dịch',
   },
   {
-    path: '/app/charts', // url
-    icon: <ChartBarIcon className={iconClasses}/>, // icon component
-    name: 'Analytics', // name that appear in Sidebar
+    path: '', 
+    icon: <ShoppingBagIcon className={`${iconClasses} inline` }/>, 
+    name: 'Quản lí đơn hàng', 
+    submenu : [
+      {
+        path: '/app/orders', 
+        icon: <CurrencyDollarIcon className={iconClasses}/>, 
+        name: 'Đơn hàng đã xử lí', 
+      },
+      {
+        path: '/app/orders-not-yet-precessed', 
+        icon: <CurrencyDollarIcon className={iconClasses}/>, 
+        name: 'Đơn hàng chưa xử lí', 
+      }
+    ]
   },
   {
-    path: '/app/integration', // url
-    icon: <BoltIcon className={iconClasses}/>, // icon component
-    name: 'Integration', // name that appear in Sidebar
+    path: '/app/charts', 
+    icon: <ChartBarIcon className={iconClasses}/>, 
+    name: 'Analytics', 
   },
   {
-    path: '/app/calendar', // url
-    icon: <CalendarDaysIcon className={iconClasses}/>, // icon component
-    name: 'Calendar', // name that appear in Sidebar
+    path: '/app/integration', 
+    icon: <BoltIcon className={iconClasses}/>, 
+    name: 'Integration',
+  },
+  {
+    path: '/app/calendar', 
+    icon: <CalendarDaysIcon className={iconClasses}/>, 
+    name: 'Calendar',
   },
 
   {
     path: '', //no url needed as this has submenu
-    icon: <DocumentDuplicateIcon className={`${iconClasses} inline` }/>, // icon component
-    name: 'Pages', // name that appear in Sidebar
+    icon: <DocumentDuplicateIcon className={`${iconClasses} inline` }/>, 
+    name: 'Pages',
     submenu : [
       {
         path: '/login',
@@ -91,8 +108,8 @@ const routes = [
       },
       {
         path: '/register', //url
-        icon: <UserIcon className={submenuIconClasses}/>, // icon component
-        name: 'Register', // name that appear in Sidebar
+        icon: <UserIcon className={submenuIconClasses}/>, 
+        name: 'Register',
       },
       {
         path: '/forgot-password',
@@ -113,13 +130,13 @@ const routes = [
   },
   {
     path: '', //no url needed as this has submenu
-    icon: <Cog6ToothIcon className={`${iconClasses} inline` }/>, // icon component
-    name: 'Settings', // name that appear in Sidebar
+    icon: <Cog6ToothIcon className={`${iconClasses} inline` }/>, 
+    name: 'Settings',
     submenu : [
       {
         path: '/app/settings-profile', //url
-        icon: <UserIcon className={submenuIconClasses}/>, // icon component
-        name: 'Profile', // name that appear in Sidebar
+        icon: <UserIcon className={submenuIconClasses}/>, 
+        name: 'Profile',
       },
       {
         path: '/app/settings-billing',
@@ -127,21 +144,21 @@ const routes = [
         name: 'Billing',
       },
       {
-        path: '/app/settings-team', // url
-        icon: <UsersIcon className={submenuIconClasses}/>, // icon component
-        name: 'Team Members', // name that appear in Sidebar
+        path: '/app/settings-team', 
+        icon: <UsersIcon className={submenuIconClasses}/>, 
+        name: 'Team Members',
       },
     ]
   },
   {
     path: '', //no url needed as this has submenu
-    icon: <DocumentTextIcon className={`${iconClasses} inline` }/>, // icon component
-    name: 'Documentation', // name that appear in Sidebar
+    icon: <DocumentTextIcon className={`${iconClasses} inline` }/>, 
+    name: 'Documentation',
     submenu : [
       {
-        path: '/app/getting-started', // url
-        icon: <DocumentTextIcon className={submenuIconClasses}/>, // icon component
-        name: 'Getting Started', // name that appear in Sidebar
+        path: '/app/getting-started', 
+        icon: <DocumentTextIcon className={submenuIconClasses}/>, 
+        name: 'Getting Started',
       },
       {
         path: '/app/features',

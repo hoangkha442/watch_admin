@@ -21,7 +21,8 @@ const DocComponents = lazy(() => import('../pages/DocComponents'))
 const Products = lazy(() => import('../pages/protected/Products'))
 const Categories = lazy(() => import('../pages/protected/Categories'))
 const Suppliers = lazy(() => import('../pages/protected/Suppliers'))
-
+const Orders = lazy(() => import('../pages/protected/Orders'))
+const OrdersNotYetProcessed = lazy(() => import('../pages/protected/OrdersNotYetProcessed'))
 const routes = [
   {
     path: '/dashboard', // the url
@@ -58,6 +59,14 @@ const routes = [
   {
     path: '/transactions',
     component: Transactions,
+  },
+  {
+    path: '/orders',
+    component: Orders,
+  },
+  {
+    path: '/orders-not-yet-precessed',
+    component: OrdersNotYetProcessed,
   },
   {
     path: '/settings-profile',

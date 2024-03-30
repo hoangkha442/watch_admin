@@ -1,6 +1,9 @@
 import { https } from "./config";
 
 export const userService = {
+  getUser: () => { 
+    return https.get('/user')  
+  },
   getUserID: (userId) => { 
     return https.get(`/user/${userId}`)  
   },
