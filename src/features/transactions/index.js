@@ -7,17 +7,20 @@ import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
 import FunnelIcon from '@heroicons/react/24/outline/FunnelIcon'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import SearchBar from "../../components/Input/SearchBar"
+import { fetchTransaction } from "./transactionSlice"
+import { Avatar } from "antd"
+import { UserOutlined } from '@ant-design/icons';
+import ViewfinderCircleIcon from '@heroicons/react/24/outline/ViewfinderCircleIcon'
+import { productService } from "../../services/ProductService"
+import { MODAL_BODY_TYPES } from "../../utils/globalConstantUtil"
+import { openModal } from "../common/modalSlice"
+
 
 const TopSideButtons = ({removeFilter, applyFilter, applySearch}) => {
 
     const [filterParam, setFilterParam] = useState("")
     const [searchText, setSearchText] = useState("")
-    const locationFilters = ["Paris", "London", "Canada", "Peru", "Tokyo"]
-
-    const showFiltersAndApply = (params) => {
-        applyFilter(params)
-        setFilterParam(params)
-    }
+    
 
     const removeAppliedFilter = () => {
         removeFilter()
@@ -36,19 +39,7 @@ const TopSideButtons = ({removeFilter, applyFilter, applySearch}) => {
     return(
         <div className="inline-block float-right">
             <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText}/>
-            {filterParam != "" && <button onClick={() => removeAppliedFilter()} className="btn btn-xs mr-2 btn-active btn-ghost normal-case">{filterParam}<XMarkIcon className="w-4 ml-2"/></button>}
-            <div className="dropdown dropdown-bottom dropdown-end">
-                <label tabIndex={0} className="btn btn-sm btn-outline"><FunnelIcon className="w-5 mr-2"/>Filter</label>
-                <ul tabIndex={0} className="dropdown-content menu p-2 text-sm shadow bg-base-100 rounded-box w-52">
-                    {
-                        locationFilters.map((l, k) => {
-                            return  <li key={k}><a onClick={() => showFiltersAndApply(l)}>{l}</a></li>
-                        })
-                    }
-                    <div className="divider mt-0 mb-0"></div>
-                    <li><a onClick={() => removeAppliedFilter()}>Remove Filter</a></li>
-                </ul>
-            </div>
+            
         </div>
     )
 }
@@ -56,62 +47,77 @@ const TopSideButtons = ({removeFilter, applyFilter, applySearch}) => {
 
 function Transactions(){
 
-
-    const [trans, setTrans] = useState(RECENT_TRANSACTIONS)
+    const transactions = useSelector((state) => state.transactions.transactions);
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchTransaction());
+    }, [dispatch]);
+     const [trans, setTrans] = useState(transactions)
 
     const removeFilter = () => {
-        setTrans(RECENT_TRANSACTIONS)
+        setTrans(transactions)
     }
 
     const applyFilter = (params) => {
-        let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => {return t.location == params})
+        let filteredTransactions = transactions.filter((t) => {return t.orders.users.full_name == params})
         setTrans(filteredTransactions)
     }
 
     // Search according to name
     const applySearch = (value) => {
-        let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => {return t.email.toLowerCase().includes(value.toLowerCase()) ||  t.email.toLowerCase().includes(value.toLowerCase())})
+        let filteredTransactions = transactions.filter((t) => {return t.orders.users.email.toLowerCase().includes(value.toLowerCase()) ||  t.orders.users.email.toLowerCase().includes(value.toLowerCase())})
         setTrans(filteredTransactions)
+    }
+
+    const openViewModal = (pId) => {
+        productService.getPaymentId(pId).then((res) => { 
+            dispatch(openModal({title : "Chi tiết giao dịch", bodyType : MODAL_BODY_TYPES.VIEW_PAYMENT, extraObject: res?.data}))
+        })
+        .catch((err) => { 
+            console.log('err: ', err);
+        })
     }
 
     return(
         <>
             
-            <TitleCard title="Recent Transactions" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} applyFilter={applyFilter} removeFilter={removeFilter}/>}>
+            <TitleCard title="Giao dịch gần đây" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} applyFilter={applyFilter} removeFilter={removeFilter}/>}>
 
                 {/* Team Member list in table format loaded constant */}
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Tên</th>
                         <th>Email Id</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                        <th>Transaction Date</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Tổng tiền</th>
+                        <th>Ngày giao dịch</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                         {
-                            trans.map((l, k) => {
+                            trans?.map((l, k) => {
                                 return(
                                     <tr key={k}>
                                     <td>
                                         <div className="flex items-center space-x-3">
                                             <div className="avatar">
                                                 <div className="mask mask-circle w-12 h-12">
-                                                    <img src={l.avatar} alt="Avatar" />
+                                                    {l.orders.users?.avatar == null ? <Avatar className="w-full h-full" icon={<UserOutlined />} /> : <img src={l.orders.users.avatar} alt="Avatar" />}
                                                 </div>
                                             </div>
                                             <div>
-                                                <div className="font-bold">{l.name}</div>
+                                                <div className="font-bold">{l.orders.users.full_name}</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{l.email}</td>
-                                    <td>{l.location}</td>
-                                    <td>${l.amount}</td>
-                                    <td>{moment(l.date).format("D MMM")}</td>
+                                    <td>{l.orders.users?.email}</td>
+                                    <td>{l.payment_method}</td>
+                                    <td>{l.amount.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</td>
+                                    <td>{moment(l.payment_date).format("D MMM YYYY")}</td>
+                                    <td><button className="badge badge-ghost font-medium py-3 px-5" onClick={() => openViewModal(l.payment_id)}><ViewfinderCircleIcon className="w-5"/></button></td>
                                     </tr>
                                 )
                             })

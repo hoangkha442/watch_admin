@@ -15,7 +15,6 @@ const INITIAL_LEAD_OBJ = {
 
 function AddUserModalBody({closeModal}){
     const dispatch = useDispatch()
-    const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [leadObj, setLeadObj] = useState(INITIAL_LEAD_OBJ)
     const currentPage = (useSelector(state => state.users.currentPage))

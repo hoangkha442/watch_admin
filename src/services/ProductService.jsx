@@ -62,6 +62,19 @@ export const productService = {
   },
   deleteProduct: (id) => {
     return https.delete(`/product/${id}`)
+  },
+
+  // PAYMENTS
+  getPayment : () => { 
+    return https.get(`/payment-detail`)
+  },
+  getPaymentId : (id) => { 
+    return https.get(`/payment-detail/${id}`)
+  },
+
+  // ORDER_DETAIL
+  getOrderDetailId : (id) => {
+    return https.get(`/order-detail/user/${id}`)
   }
 
 }   

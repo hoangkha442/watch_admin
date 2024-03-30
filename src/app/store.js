@@ -7,6 +7,7 @@ import productReducer from '../features/products/productSlice';
 import supplierReducer from '../features/supplier/supplierSlice';
 import categoryReducer from '../features/productCategories/categorySlice';
 import userReducer from '../features/users/userSlice';
+import transactionReducer from '../features/transactions/transactionSlice';
 const combinedReducer = {
   header : headerSlice,
   rightDrawer : rightDrawerSlice,
@@ -16,6 +17,7 @@ const combinedReducer = {
   suppliers: supplierReducer,
   categories: categoryReducer,
   users: userReducer,
+  transactions: transactionReducer,
 }
 
 export default configureStore({

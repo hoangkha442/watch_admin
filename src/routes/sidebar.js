@@ -61,7 +61,7 @@ const routes = [
   {
     path: '/app/transactions', // url
     icon: <CurrencyDollarIcon className={iconClasses}/>, // icon component
-    name: 'Transactions', // name that appear in Sidebar
+    name: 'Giao dịch', // name that appear in Sidebar
   },
   {
     path: '/app/charts', // url
