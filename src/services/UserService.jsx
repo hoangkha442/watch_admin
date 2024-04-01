@@ -7,6 +7,9 @@ export const userService = {
   getUserID: (userId) => { 
     return https.get(`/user/${userId}`)  
   },
+  getUserToken: () => {
+    return https.get('/user/profile') 
+  },
   getUserPagination: (page, pageSize) => {
     return https.get(`/user/pagination?page=${page}&pageSize=${pageSize}`);
   },

@@ -1,8 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import TitleCard from '../../components/Cards/TitleCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchOrders } from './orderSlice';
+
 import moment from 'moment';
 import { productService } from '../../services/ProductService';
 import { Avatar } from 'antd';
@@ -11,19 +10,20 @@ import { BASE_URL_IMG_PRD } from '../../services/config';
 import ViewfinderCircleIcon from '@heroicons/react/24/outline/ViewfinderCircleIcon';
 import { openModal } from '../common/modalSlice';
 import { MODAL_BODY_TYPES } from '../../utils/globalConstantUtil';
+import { fetchOrderShipped } from '../orders/orderSlice';
 
 
 const formatProductDescription = (description) => {
   return description?.length > 20 ? `${description.slice(0, 20)}...` : description;
 };
-const Orders = () => {
+const OrderShipped = () => {
   const [orderProduct, setOrderProduct] = useState([]);
   const [shipping, setShipping] = useState([]);
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
 
   useEffect(() => {
-    dispatch(fetchOrders());
+    dispatch(fetchOrderShipped());
   }, [dispatch]);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Orders = () => {
 
   return (
     <>
-      <TitleCard title={`${orderProduct.length} Đơn hàng đã được giao`} topMargin="mt-2">
+      <TitleCard title={`${orderProduct.length} Đơn hàng đã vận chuyển`} topMargin="mt-2"   >
         <div className="overflow-x-auto w-full">
           <table className="table w-full">
             <thead>
@@ -107,4 +107,4 @@ const Orders = () => {
   );
 };
 
-export default Orders
+export default OrderShipped

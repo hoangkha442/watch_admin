@@ -11,7 +11,11 @@ module.exports = Object.freeze({
         PRODUCT_EDIT: "PRODUCT_EDIT",
         PRODUCT_ADD_NEW: "PRODUCT_ADD_NEW",
         VIEW_PAYMENT: "VIEW_PAYMENT",
+        VIEW_ORDER: "VIEW_ORDER",
+        VIEW_ORDERNYP: "VIEW_ORDERNYP",
+        EDIT_ORDERNYP: "EDIT_ORDERNYP",
         CONFIRMATION : "CONFIRMATION",
+        
         DEFAULT : "",
     },
 

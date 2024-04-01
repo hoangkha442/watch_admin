@@ -9,6 +9,8 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import TitleCard from '../../../components/Cards/TitleCard';
+import { useEffect, useState } from 'react';
+import { productService } from '../../../services/ProductService';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -24,20 +26,21 @@ function BarChart(){
       };
       
       const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-      
+      const [getPrice, setGetPrice] = useState()
+      console.log('getPrice: ', getPrice);
+      useEffect(() => { 
+        productService.getOrder().then((res) => { 
+          setGetPrice(res.data)
+         })
+      },[])
       const data = {
         labels,
         datasets: [
           {
-            label: 'Store 1',
-            data: labels.map(() => { return Math.random() * 1000 + 500 }),
+            label: 'Online',
+            data: getPrice?.map((item) => { return item.total_amount }),
             backgroundColor: 'rgba(255, 99, 132, 1)',
-          },
-          {
-            label: 'Store 2',
-            data: labels.map(() => { return Math.random() * 1000 + 500 }),
-            backgroundColor: 'rgba(53, 162, 235, 1)',
-          },
+          }
         ],
       };
 

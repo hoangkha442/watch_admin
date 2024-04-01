@@ -84,6 +84,9 @@ export const productService = {
   getOrder: () => { 
     return https.get(`/order`)
   },
+  putStatusOrder: (id, data) => {
+    return https.put(`/order/${id}/status`, data)
+  },
 
   // SHIPPING
   getShipping: () => { 

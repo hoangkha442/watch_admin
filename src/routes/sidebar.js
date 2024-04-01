@@ -1,5 +1,4 @@
 /** Icons are imported separatly to reduce build time */
-import BellIcon from '@heroicons/react/24/outline/BellIcon'
 import DocumentTextIcon from '@heroicons/react/24/outline/DocumentTextIcon'
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon'
 import TableCellsIcon from '@heroicons/react/24/outline/TableCellsIcon'
@@ -14,11 +13,12 @@ import Cog6ToothIcon from '@heroicons/react/24/outline/Cog6ToothIcon'
 import BoltIcon from '@heroicons/react/24/outline/BoltIcon'
 import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
 import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
-import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
 import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
 import KeyIcon from '@heroicons/react/24/outline/KeyIcon'
 import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon'
 import ShoppingBagIcon from '@heroicons/react/24/outline/ShoppingBagIcon'
+import { XCircleIcon, TruckIcon, CheckCircleIcon, ClockIcon, CubeIcon, UserGroupIcon, FolderIcon } from '@heroicons/react/24/outline';
+
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`  
@@ -37,22 +37,22 @@ const routes = [
   },
   {
     path: '', //no url needed as this has submenu
-    icon: <ShoppingBagIcon className={`${iconClasses} inline` }/>, 
+    icon: <CubeIcon className={`${iconClasses} inline` }/>, 
     name: 'Sản phẩm',
     submenu : [
       {
         path: '/app/categories',
-        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+        icon: <FolderIcon  className={submenuIconClasses}/>,
         name: 'Danh mục sản phẩm',
       },
       {
         path: '/app/suppliers',
-        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+        icon: <TruckIcon className={submenuIconClasses}/>,
         name: 'Nhà cung cấp',
       },
       {
         path: '/app/products',
-        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+        icon: <UserGroupIcon  className={submenuIconClasses}/>,
         name: 'Quản lý sản phẩm',
       },
       
@@ -68,33 +68,44 @@ const routes = [
     icon: <ShoppingBagIcon className={`${iconClasses} inline` }/>, 
     name: 'Quản lí đơn hàng', 
     submenu : [
+      // order-shipped
       {
         path: '/app/orders', 
-        icon: <CurrencyDollarIcon className={iconClasses}/>, 
-        name: 'Đơn hàng đã xử lí', 
+        icon: <CheckCircleIcon  className={iconClasses}/>, 
+        name: 'Đơn hàng đã giao', 
+      },
+      {
+        path: '/app/order-shipped', 
+        icon: <TruckIcon  className={iconClasses}/>, 
+        name: 'Đơn hàng đã vận chuyển', 
+      },
+      {
+        path: '/app/order-canceled', 
+        icon: <XCircleIcon  className={iconClasses}/>, 
+        name: 'Đơn hàng đã hủy', 
       },
       {
         path: '/app/orders-not-yet-precessed', 
-        icon: <CurrencyDollarIcon className={iconClasses}/>, 
+        icon: <ClockIcon  className={iconClasses}/>, 
         name: 'Đơn hàng chưa xử lí', 
       }
     ]
   },
-  {
-    path: '/app/charts', 
-    icon: <ChartBarIcon className={iconClasses}/>, 
-    name: 'Analytics', 
-  },
-  {
-    path: '/app/integration', 
-    icon: <BoltIcon className={iconClasses}/>, 
-    name: 'Integration',
-  },
-  {
-    path: '/app/calendar', 
-    icon: <CalendarDaysIcon className={iconClasses}/>, 
-    name: 'Calendar',
-  },
+  // {
+  //   path: '/app/charts', 
+  //   icon: <ChartBarIcon className={iconClasses}/>, 
+  //   name: 'Analytics', 
+  // },
+  // {
+  //   path: '/app/integration', 
+  //   icon: <BoltIcon className={iconClasses}/>, 
+  //   name: 'Integration',
+  // },
+  // {
+  //   path: '/app/calendar', 
+  //   icon: <CalendarDaysIcon className={iconClasses}/>, 
+  //   name: 'Calendar',
+  // },
 
   {
     path: '', //no url needed as this has submenu
@@ -150,28 +161,28 @@ const routes = [
       },
     ]
   },
-  {
-    path: '', //no url needed as this has submenu
-    icon: <DocumentTextIcon className={`${iconClasses} inline` }/>, 
-    name: 'Documentation',
-    submenu : [
-      {
-        path: '/app/getting-started', 
-        icon: <DocumentTextIcon className={submenuIconClasses}/>, 
-        name: 'Getting Started',
-      },
-      {
-        path: '/app/features',
-        icon: <TableCellsIcon className={submenuIconClasses}/>, 
-        name: 'Features',
-      },
-      {
-        path: '/app/components',
-        icon: <CodeBracketSquareIcon className={submenuIconClasses}/>, 
-        name: 'Components',
-      }
-    ]
-  },
+  // {
+  //   path: '', //no url needed as this has submenu
+  //   icon: <DocumentTextIcon className={`${iconClasses} inline` }/>, 
+  //   name: 'Documentation',
+  //   submenu : [
+  //     {
+  //       path: '/app/getting-started', 
+  //       icon: <DocumentTextIcon className={submenuIconClasses}/>, 
+  //       name: 'Getting Started',
+  //     },
+  //     {
+  //       path: '/app/features',
+  //       icon: <TableCellsIcon className={submenuIconClasses}/>, 
+  //       name: 'Features',
+  //     },
+  //     {
+  //       path: '/app/components',
+  //       icon: <CodeBracketSquareIcon className={submenuIconClasses}/>, 
+  //       name: 'Components',
+  //     }
+  //   ]
+  // },
   
 ]
 

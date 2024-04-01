@@ -7,14 +7,19 @@ import TitleCard from '../../components/Cards/TitleCard';
 import { fetchOrdersNYP } from './orderNYSlice'; // Ensure this thunk is properly implemented
 import { productService } from '../../services/ProductService';
 import { BASE_URL_IMG_PRD } from '../../services/config';
+import ViewfinderCircleIcon from '@heroicons/react/24/outline/ViewfinderCircleIcon';
+import { MODAL_BODY_TYPES } from '../../utils/globalConstantUtil';
+import { openModal } from '../common/modalSlice';
+import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
+
 
 const formatProductDescription = (description) => description?.length > 20 ? `${description.slice(0, 20)}...` : description;
 
 const OrdersNotYetProcessed = () => {
   const [ordersDetails, setOrdersDetails] = useState([]);
-  console.log('ordersDetails: ', ordersDetails);
-  const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderNYP.ordersNYP);
+  console.log('orders: ', orders);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchOrdersNYP());
@@ -25,7 +30,6 @@ const OrdersNotYetProcessed = () => {
       try {
         const shippingData = await productService.getShipping();
         const orderDetailsData = await productService.getOrderDetail();
-        // Combine the fetched data with the orders
         const combinedData = orders.map(order => ({
           ...order,
           ...orderDetailsData.data.find(detail => detail.order_id === order.order_id),
@@ -40,10 +44,12 @@ const OrdersNotYetProcessed = () => {
     if (orders.length) fetchData();
   }, [orders]);
 
-
+  const openEditModal = (detail) =>{
+    dispatch(openModal({ title: "Cập nhật trạng thái đơn hàng!", bodyType: MODAL_BODY_TYPES.EDIT_ORDERNYP, extraObject: detail }))
+  }
   return (
     <>
-      <TitleCard title="Đơn hàng chưa xử lý" topMargin="mt-2">
+      <TitleCard title={`${ordersDetails.length} Đơn hàng chưa xử lí`} topMargin="mt-2">
         <div className="overflow-x-auto w-full">
           <table className="table w-full">
             <thead>
@@ -54,6 +60,7 @@ const OrdersNotYetProcessed = () => {
                 <th>Địa chỉ nhận hàng</th>
                 <th>Ngày đặt hàng</th>
                 <th>Tình trạng</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -81,6 +88,9 @@ const OrdersNotYetProcessed = () => {
                       {order?.status}
                     </button>
                   </td>
+                  <td>
+                      <button className="btn btn-sm btn-outline" onClick={() => openEditModal(order)}><PencilSquareIcon className="w-5"/></button>
+                    </td>
                 </tr>
               ))}
             </tbody>

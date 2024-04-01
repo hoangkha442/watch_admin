@@ -42,6 +42,7 @@ function Dashboard(){
             setCustomer(customerCount)
          })
         productService.getOrder().then((res) => { 
+            console.log('res: ', res.data);
 
             setTotalOrder(res.data)
 
@@ -65,10 +66,10 @@ function Dashboard(){
          })
     }, [])
     const statsData = [
-        {title : "Tổng người dùng", value : user?.length, icon : <UserGroupIcon className='w-8 h-8'/>, description : `${admin} Admin - ${customer} Customer`},
+        {title : "Tổng tài khoản", value : user?.length, icon : <UserGroupIcon className='w-8 h-8'/>, description : `${admin} Admin - ${customer} Customer`},
         {title : "Tổng doanh thu", value : totalAmount, icon : <CreditCardIcon className='w-8 h-8'/>, description : "Tháng này"},
         {title : "Đang chờ xử lí", value : order?.length, icon : <CircleStackIcon className='w-8 h-8'/>, description : `Trên ${totalOrder?.length} đơn hàng`},
-        {title : "Người dùng đã order", value : countOrderByUserId, icon : <UsersIcon className='w-8 h-8'/>, description : "↙ 300 (18%)"},
+        {title : "Người dùng đã order", value : countOrderByUserId, icon : <UsersIcon className='w-8 h-8'/>, description : `Trên ${customer} người dùng`},
     ]
     const dispatch = useDispatch()
  

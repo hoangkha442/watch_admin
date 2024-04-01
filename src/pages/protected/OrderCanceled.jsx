@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../features/common/headerSlice'
-import OrdersNotYetProcessed from '../../features/ordersNotYetProcessed'
+import OrderCanceled from '../../features/orderCanceled'
 
 function InternalPage(){
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Pending"}))
+        dispatch(setPageTitle({ title : "Cancel"}))
       }, [])
 
 
     return(
-        <OrdersNotYetProcessed />
+        <OrderCanceled />
     )
 }
 

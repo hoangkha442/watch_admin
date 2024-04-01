@@ -13,7 +13,6 @@ import { Avatar, Pagination} from "antd"
 import { fetchUsers, setCurrentPage } from "./userSlice.js"
 
 const TopSideButtons = () => {
-
     const dispatch = useDispatch()
 
     const openAddNewLeadModal = () => {
@@ -82,8 +81,9 @@ function Users(){
                     </tr>
                     </thead>
                     <tbody>
+                        {/* .filter(order => order.status == 'Cancel') */}
                         {
-                           users?.data?.map((user, k) => { 
+                           users?.data?.filter(u => u.role == 'customer')?.map((user, k) => { 
                                 return(
                                     <tr key={user?.user_id}>
                                         <td>

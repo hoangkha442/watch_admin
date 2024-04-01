@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom"
-
 function DashboardStats({title, icon, value, description, colorIndex}){
 
     const COLORS = ["primary", "primary"]

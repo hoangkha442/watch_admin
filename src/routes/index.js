@@ -22,6 +22,10 @@ const Products = lazy(() => import('../pages/protected/Products'))
 const Categories = lazy(() => import('../pages/protected/Categories'))
 const Suppliers = lazy(() => import('../pages/protected/Suppliers'))
 const Orders = lazy(() => import('../pages/protected/Orders'))
+const OrderShipped = lazy(() => import('../pages/protected/OrderShipped'))
+const OrderCanceled = lazy(() => import('../pages/protected/OrderCanceled'))
+// OrderCanceled
+// OrderShipped
 const OrdersNotYetProcessed = lazy(() => import('../pages/protected/OrdersNotYetProcessed'))
 const routes = [
   {
@@ -63,6 +67,14 @@ const routes = [
   {
     path: '/orders',
     component: Orders,
+  },
+  {
+    path: '/order-shipped',
+    component: OrderShipped,
+  },
+  {
+    path: '/order-canceled',
+    component: OrderCanceled,
   },
   {
     path: '/orders-not-yet-precessed',

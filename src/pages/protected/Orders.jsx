@@ -6,7 +6,7 @@ import Orders from '../../features/orders'
 function InternalPage(){
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Orders"}))
+        dispatch(setPageTitle({ title : "Delivered"}))
       }, [])
 
 

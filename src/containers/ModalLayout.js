@@ -12,6 +12,8 @@ import EditProductModal from '../features/products/components/EditProductModal'
 import AddNewProductModal from '../features/products/components/AddNewProductModal'
 import AddUserModalBody from '../features/users/components/AddNewUserModal'
 import ViewPaymentModal from '../features/transactions/component/ViewPaymentModal'
+import ViewOrderModal from '../features/orders/components/ViewOrderModal'
+import EditStatusModal from '../features/ordersNotYetProcessed/components/EditStatusModal'
 
 
 function ModalLayout(){
@@ -70,6 +72,18 @@ function ModalLayout(){
                 {
                     {
                              [MODAL_BODY_TYPES.VIEW_PAYMENT] : <ViewPaymentModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.DEFAULT] : <div></div>
+                    }[bodyType]
+                }
+                {
+                    {
+                             [MODAL_BODY_TYPES.VIEW_ORDER] : <ViewOrderModal closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.DEFAULT] : <div></div>
+                    }[bodyType]
+                }
+                {
+                    {
+                             [MODAL_BODY_TYPES.EDIT_ORDERNYP] : <EditStatusModal closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.DEFAULT] : <div></div>
                     }[bodyType]
                 }

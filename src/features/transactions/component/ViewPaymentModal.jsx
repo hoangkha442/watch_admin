@@ -24,29 +24,52 @@ function ViewPaymentModal({ closeModal, extraObject }) {
 
     return (
         <div className="modal-content-container">
-            <TitleCard title={orderObj?.products?.product_name} topMargin="mt-2">
-                <div className="flex flex-col md:flex-row items-center gap-6 p-4  shadow-lg rounded-lg">
-                    <div className="flex-none rounded-lg w-36 h-36 overflow-hidden">
-                        {orderObj?.products?.product_picture == null ? 
-                            <Avatar className="w-full h-full" icon={<UserOutlined />} /> : 
-                            <img className="object-cover rounded-lg w-full h-full" src={BASE_URL_IMG_PRD + orderObj?.products?.product_picture} alt="Product" />}
-                    </div>
-                    <div className="flex-grow">
-                        <p className="text-lg font-semibold">{orderObj?.products?.product_name}</p>
-                        <p className="text-gray-600">{orderObj?.products?.description}</p>
-                        <div className="flex justify-between items-center mt-4">
-                            <p className="text-sm font-medium ">{orderObj?.products?.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
-                            <p className="text-sm font-medium text-gray-500">x{orderObj?.quantity}</p>
-                            <p className="text-lg font-bold text-purple-600">{(orderObj?.products?.price * orderObj?.quantity).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="mt-6 text-center">
-                    <p className="py-2 px-4 border border-purple-500 rounded-lg inline-block">
-                        <span className="font-semibold">{user?.full_name}</span> - <span>{user?.email}</span> - <span>{moment(orderObj?.orders?.order_date).format("D MMM YYYY")}</span>
-                    </p>
-                </div>
-            </TitleCard>
+            <div class="p-4 rounded-lg shadow-md max-w-sm mx-auto">
+        <div class="flex items-start space-x-4">
+          <img
+            class="w-16 h-16 object-cover rounded-md"
+            src={BASE_URL_IMG_PRD + orderObj?.products?.product_picture}
+            alt="Product Image"
+          />
+          <div class="flex-1">
+            <h2 class="text-lg font-bold">
+              {orderObj?.products?.product_name}
+            </h2>
+            <p class=" text-sm line-through">{orderObj?.products?.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
+            <p class="text-red-500 font-bold">{orderObj?.products?.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
+          </div>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+          <span class="text-sm font-medium ">{orderObj?.quantity} sản phẩm</span>
+          <span class="text-lg font-bold text-red-600">
+            Thành tiền: {(orderObj?.products?.price * orderObj?.quantity).toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+          </span>
+        </div>
+        <div class="border-t  mt-4 pt-4">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <div class="p-1 bg-red-100 text-red-500 rounded-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                ></svg>
+              </div>
+              <span class="text-sm font-medium ">
+                {orderObj?.status === "delivered" ? "Đã giao thành công" : "Đang vận chuyển"}
+              </span>
+            </div>
+            <a href="#" class="text-red-500 text-sm font-medium">
+                {orderObj?.status === "delivered" ? "Đã nhận được hàng" : "Chưa nhận được hàng"}
+            </a>
+          </div>
+          <p class="text-sm text-gray-500 mt-2">
+            Liên hệ với khách hàng thông qua số điện thoại <a className="font-[500] text-sm" href={`tel:${user?.phone}`}>{user?.phone}</a> hoặc Email <a className="font-[500] text-sm" href={`mailto:${user?.email}`}>{user?.email}</a> để giải quyết mọi vấn đề về đơn hàng
+          </p>
+        </div>
+      </div>
         </div>
     );
 }
