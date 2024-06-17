@@ -4,27 +4,34 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
-  async ({ currentPage, sizeItem }, thunkAPI) => {
+  async ({ currentPage, sizeItem }, { rejectWithValue }) => {
     try {
       const response = await userService.getUserPagination(currentPage, sizeItem);
-      return response;
+      return {
+        data: response.data,
+        pageSize: sizeItem, 
+        totalPage: Math.ceil(response.totalCount / sizeItem) 
+      };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
+
 export const fetchUser = createAsyncThunk(
   'users/fetchUser',
   async (_, { rejectWithValue }) => {
-      try {
-          const response = await userService.getUserToken();
-          return response;
-      } catch (error) {
-          return rejectWithValue(error.response.data);
-      }
+    try {
+      const response = await userService.getUserToken();
+      // Only return the serializable part of the response, typically found in `response.data`
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
+
 
 
 

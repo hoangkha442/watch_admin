@@ -10,6 +10,7 @@ import userReducer from '../features/users/userSlice';
 import transactionReducer from '../features/transactions/transactionSlice';
 import orderReducer from '../features/orders/orderSlice';
 import orderNYPReducer from '../features/ordersNotYetProcessed/orderNYSlice';
+import teamReducer from '../features/settings/team/teamSlice';
 const combinedReducer = {
   header : headerSlice,
   rightDrawer : rightDrawerSlice,
@@ -21,7 +22,8 @@ const combinedReducer = {
   users: userReducer,
   transactions: transactionReducer,
   orders: orderReducer,
-  orderNYP: orderNYPReducer
+  orderNYP: orderNYPReducer,
+  teams: teamReducer
 }
 
 export default configureStore({

@@ -10,8 +10,8 @@ import { notification } from 'antd';
 function Login(){
 
     const INITIAL_LOGIN_OBJ = {
-        password : "",
-        email : ""
+        password : "123",
+        email : "kha@gmail.com"
     }
 
     const [loading, setLoading] = useState(false)
@@ -40,8 +40,9 @@ function Login(){
                 setLoading(true)
                 openNotificationWithIcon('success', 'Đăng nhập thành công!', 'Chào mừng bạn đến với trang quản lý M-Equipment.')
                 setTimeout(() => {
-                    navigate('/')
-                }, 1500);
+                    navigate('/app/dashboard')
+                    window.location.reload()
+                }, 1500);                                    
             })
             .catch((err) => { 
                 setLoading(false)

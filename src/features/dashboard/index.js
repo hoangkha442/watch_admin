@@ -16,9 +16,11 @@ import DoughnutChart from './components/DoughnutChart'
 import { useEffect, useState } from 'react'
 import { userService } from '../../services/UserService'
 import { productService } from '../../services/ProductService'
+// import { useAuth } from '../hook/useAuth'
 
 
 function Dashboard(){
+    // useAuth()
     const [user, setUser] = useState()
     const [order, setOrder] = useState()
     const [totalOrder, setTotalOrder] = useState()
@@ -26,44 +28,45 @@ function Dashboard(){
     const [totalAmount, setTotalAmount] = useState()
     const [admin, setAdmin] = useState()
     const [customer, setCustomer] = useState()
+    
     useEffect(() => { 
         userService.getUser().then((res) => { 
-            setUser(res.data)
+            setUser(res?.data)
             let adminCount = 0;
             let customerCount = 0;
             res.data.forEach(user => {
-                if (user.role === 'admin') {
+                if (user?.role === 'admin') {
                   adminCount++;
-                } else if (user.role === 'customer') {
+                } else if (user?.role === 'customer') {
                   customerCount++;
                 }
             });
             setAdmin(adminCount)
             setCustomer(customerCount)
-         })
+         }).catch(err => err)
         productService.getOrder().then((res) => { 
             console.log('res: ', res.data);
 
             setTotalOrder(res.data)
 
 
-            let sumDelivered = res.data.reduce((sum, order) => {
-                return order.status === 'delivered' ? sum + order.total_amount : sum;
+            let sumDelivered = res?.data?.reduce((sum, order) => {
+                return order?.status === 'delivered' ? sum + order?.total_amount : sum;
             }, 0);
             setTotalAmount(sumDelivered)
 
-            let filteredOrders = res.data.filter(order => order.status !== 'delivered');
+            let filteredOrders = res?.data?.filter(order => order.status !== 'delivered');
             setOrder(filteredOrders)
 
             let uniqueUserIds = new Set();
-            res.data.forEach(order => {
-                uniqueUserIds.add(order.user_id);
+            res?.data?.forEach(order => {
+                uniqueUserIds.add(order?.user_id);
             });
             let uniqueUserIdsCount = uniqueUserIds.size;
             setCountOrderByUserId(uniqueUserIdsCount)
 
 
-         })
+         }).catch(err => err)
     }, [])
     const statsData = [
         {title : "Tổng tài khoản", value : user?.length, icon : <UserGroupIcon className='w-8 h-8'/>, description : `${admin} Admin - ${customer} Customer`},

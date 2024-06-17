@@ -5,9 +5,8 @@ import Team from '../../features/settings/team'
 
 function InternalPage(){
     const dispatch = useDispatch()
-
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Team Members"}))
+        dispatch(setPageTitle({ title : "Team Admins"}))
       }, [])
 
 

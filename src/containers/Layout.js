@@ -12,7 +12,6 @@ function Layout(){
   const dispatch = useDispatch()
   const {newNotificationMessage, newNotificationStatus} = useSelector(state => state.header)
 
-
   useEffect(() => {
       if(newNotificationMessage !== ""){
           if(newNotificationStatus === 1)NotificationManager.success(newNotificationMessage, 'Success')

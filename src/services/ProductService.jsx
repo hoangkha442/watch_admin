@@ -49,7 +49,11 @@ export const productService = {
     return https.get(`/product/search/${prdName}`)  
   },
   postProduct: (data) => {
-    return https.post(`/product`, data)
+    return https.post(`/product`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
   },
   putProduct: (id, extraObj) => {
     return https.put(`/product/${id}`, extraObj)
@@ -91,5 +95,32 @@ export const productService = {
   // SHIPPING
   getShipping: () => { 
     return https.get(`/shipping-details`)  
+  },
+
+  // PRODUCT_IMAGES
+  updateProduct: (productId, productData) => {
+    return https.put(`/product/${productId}`, productData);
+  },
+
+  updateProductPictures: (productId, formData) => {
+    return https.put(`/product/picture/${productId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
+  
+  // New method to update individual images
+  updateProductImage: (imageId, formData) => {
+    return https.put(`/product-image/${imageId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
+
+  // Fetch product images by product ID
+  getProductImages: (productId) => {
+    return https.get(`/product/${productId}/images`);
   }
 }   

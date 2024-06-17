@@ -4,6 +4,10 @@ export const userService = {
   getUser: () => { 
     return https.get('/user')  
   },
+  getMyInfor: () => { 
+    return https.get('/user/my-info')  
+  }
+  ,
   getUserID: (userId) => { 
     return https.get(`/user/${userId}`)  
   },
@@ -12,6 +16,9 @@ export const userService = {
   },
   getUserPagination: (page, pageSize) => {
     return https.get(`/user/pagination?page=${page}&pageSize=${pageSize}`);
+  },
+  getAdminPagination: (page, pageSize) => {
+    return https.get(`/user/pagination-admin?page=${page}&pageSize=${pageSize}`);
   },
   hiddenUser: (userId) => {
     return https.put(`/user/hidden-user/${userId}`);

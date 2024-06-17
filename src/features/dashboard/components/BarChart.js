@@ -27,11 +27,10 @@ function BarChart(){
       
       const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
       const [getPrice, setGetPrice] = useState()
-      console.log('getPrice: ', getPrice);
       useEffect(() => { 
         productService.getOrder().then((res) => { 
           setGetPrice(res.data)
-         })
+         }).catch(err => err)
       },[])
       const data = {
         labels,

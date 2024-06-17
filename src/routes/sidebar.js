@@ -117,26 +117,26 @@ const routes = [
         icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
         name: 'Login',
       },
-      {
-        path: '/register', //url
-        icon: <UserIcon className={submenuIconClasses}/>, 
-        name: 'Register',
-      },
-      {
-        path: '/forgot-password',
-        icon: <KeyIcon className={submenuIconClasses}/>,
-        name: 'Forgot Password',
-      },
-      {
-        path: '/app/blank',
-        icon: <DocumentIcon className={submenuIconClasses}/>,
-        name: 'Blank Page',
-      },
-      {
-        path: '/app/404',
-        icon: <ExclamationTriangleIcon className={submenuIconClasses}/>,
-        name: '404',
-      },
+      // {
+      //   path: '/register', //url
+      //   icon: <UserIcon className={submenuIconClasses}/>, 
+      //   name: 'Register',
+      // },
+      // {
+      //   path: '/forgot-password',
+      //   icon: <KeyIcon className={submenuIconClasses}/>,
+      //   name: 'Forgot Password',
+      // },
+      // {
+      //   path: '/app/blank',
+      //   icon: <DocumentIcon className={submenuIconClasses}/>,
+      //   name: 'Blank Page',
+      // },
+      // {
+      //   path: '/app/404',
+      //   icon: <ExclamationTriangleIcon className={submenuIconClasses}/>,
+      //   name: '404',
+      // },
     ]
   },
   {
@@ -149,11 +149,11 @@ const routes = [
         icon: <UserIcon className={submenuIconClasses}/>, 
         name: 'Profile',
       },
-      {
-        path: '/app/settings-billing',
-        icon: <WalletIcon className={submenuIconClasses}/>,
-        name: 'Billing',
-      },
+      // {
+      //   path: '/app/settings-billing',
+      //   icon: <WalletIcon className={submenuIconClasses}/>,
+      //   name: 'Billing',
+      // },
       {
         path: '/app/settings-team', 
         icon: <UsersIcon className={submenuIconClasses}/>, 

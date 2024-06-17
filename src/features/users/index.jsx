@@ -29,6 +29,7 @@ const TopSideButtons = () => {
 function Users(){
     const currentPage = useSelector((state) => state.users.currentPage);
     const users = useSelector((state) => state.users.users);
+    console.log('users: ', users);
     const [sizeItem, setSizeItem] = useState(5);
     const dispatch = useDispatch()
     useEffect(() => {
@@ -37,8 +38,6 @@ function Users(){
     const onChange = (pageNumber) => {
         dispatch(setCurrentPage(pageNumber));
     };
-
-
     const getStatus = (index) => {
         if(index === false)return <div className="font-medium py-3 px-5 badge badge-accent">Hiện</div>
         else return <div className="badge badge-ghost font-medium py-3 px-5">Ẩn</div>

@@ -15,10 +15,16 @@ function EditStatusModal({ closeModal, extraObject }) {
     const saveOrderStatus = () => {
       dispatch(updateOrderStatus({ orderId: extraObject.order_id, newStatus: status }))
         .then((res) => {
-          dispatch(showNotification({ message: 'Cập nhật trạng thái đơn hàng thành công', status: 'success' }));
+          dispatch(showNotification({ message: 'Cập nhật trạng thái đơn hàng thành công', status: 1}));
           dispatch(fetchOrdersNYP());
           closeModal();
-          navigate('/app/orders')
+          if(status === 'pending'){
+            navigate('/app/orders-not-yet-precessed')
+          }else if(status === 'Cancel'){
+            navigate('/app/order-canceled')
+          }else {
+            navigate('/app/order-shipped')
+          }
         })
         .catch((err) => {
           dispatch(showNotification({ message: 'Có lỗi xảy ra khi cập nhật trạng thái đơn hàng.', status: 'error' }));
@@ -26,6 +32,7 @@ function EditStatusModal({ closeModal, extraObject }) {
     };
     
       const typeOptions = [
+        { name: 'Đơn hàng đang xử lí', value: 'pending' },
         { name: 'Hủy đơn hàng', value: 'Cancel' },
         { name: 'Duyệt đơn hàng', value: 'shipped' },
       ];
