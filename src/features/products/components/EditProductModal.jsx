@@ -93,7 +93,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
 
     let formData = new FormData();
     files.forEach((file) => {
-      if (file) formData.append('product_picture', file); // Ensure the field name matches the backend
+      if (file) formData.append('product_pictures', file);
     });
 
     await productService.updateProductPictures(productId, formData);
@@ -129,9 +129,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
       await productService.updateProduct(extraObject[0].product_id, newProduct);
 
       // Upload new product images if present
-      if (files.length > 0) {
-        await uploadProductImagesIfPresent(files, extraObject[0].product_id);
-      }
+      await uploadProductImagesIfPresent(files, extraObject[0].product_id);
 
       // Update existing images if changed
       await updateExistingImages(existingImages);
@@ -171,7 +169,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
             </div>
           ))}
         </div>
-        <label className="label mt-4">
+        {/* <label className="label mt-4">
           <span className="label-text text-base-content">Thêm hình ảnh mới</span>
         </label>
         {files.map((file, index) => (
@@ -183,7 +181,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
             className="input input-bordered w-full pt-2 mb-2"
           />
         ))}
-        <button type="button" onClick={addImageInput} className="btn btn-secondary mt-2">Thêm ảnh</button>
+        <button type="button" onClick={addImageInput} className="btn btn-secondary mt-2">Thêm ảnh</button> */}
       </div>
       <InputText defaultValue={productObj?.quantity_in_stock} updateType="quantity_in_stock" labelTitle="Số lượng tồn kho" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <div className="flex items-center gap-2">
