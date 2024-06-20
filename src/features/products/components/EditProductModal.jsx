@@ -30,8 +30,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
     ...extraObject[0],
     price: String(extraObject[0].price),
     quantity_in_stock: String(extraObject[0].quantity_in_stock),
-    });
-  console.log('productObj: ', productObj);
+  });
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -59,74 +58,42 @@ export default function EditProductModal({ closeModal, extraObject }) {
   useEffect(() => {
     setExistingImages(extraObject[0].product_images || []);
   }, [extraObject]);
+
   const updateFormValue = ({ updateType, value }) => {
     setErrorMessage('');
     setProductObj((prev) => ({ ...prev, [updateType]: value }));
   };
+
   const handleFileChange = (e, index) => {
     const newFiles = [...files];
     newFiles[index] = e.target.files[0];
     setFiles(newFiles);
   };
+
   const handleExistingImageChange = (e, index) => {
     const newImages = [...existingImages];
     newImages[index] = { ...newImages[index], file: e.target.files[0] };
     setExistingImages(newImages);
   };
+
   const addImageInput = () => {
     setFiles([...files, null]);
   };
-  async function saveProduct() {
-    const errorMessage = validateProduct(productObj);
-    if (errorMessage) {
-      setErrorMessage(errorMessage);
-      return;
-    }
-    try {
-      const newProduct = {
-        
-        product_name: productObj.product_name,
-        description: productObj.description,
-        price: Number(productObj.price),
-        quantity_in_stock: Number(productObj.quantity_in_stock),
-        category_id: Number(productObj.category_id),
-        supplier_id: Number(productObj.supplier_id),
-        };
-      console.log('newProduct: ', newProduct);
-      // Call update product API
-      await productService.updateProduct(extraObject[0].product_id, newProduct);
-      // Upload new product images if present
-      await uploadProductImagesIfPresent(files, extraObject[0].product_id);
-      // Update existing images if changed
-      // await updateExistingImages(existingImages);
 
-      // Fetch updated products
-      dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
-
-      // Show success notification
-      dispatch(showNotification({ message: 'Cập nhật sản phẩm thành công!', status: 1 }));
-      closeModal();
-    } catch (err) {
-      console.log('err: ', err);
-      // Show error notification
-      dispatch(showNotification({ message: 'Có lỗi xảy ra khi chỉnh sửa thông tin.', status: 0 }));
-    }
-  }
-
-  function validateProduct(productObj) {
+  const validateProduct = (productObj) => {
     if (!productObj.product_name.trim()) return 'Tên sản phẩm không được bỏ trống!';
     if (!productObj.description.trim()) return 'Mô tả sản phẩm không được bỏ trống!';
-    if (!productObj.price.trim()) return 'Giá sản phẩm không được bỏ trống!';
-    if (!productObj.quantity_in_stock.trim()) return 'Số lượng tồn không được bỏ trống!';
+    if (!productObj.price.trim() || isNaN(Number(productObj.price))) return 'Giá sản phẩm không hợp lệ!';
+    if (!productObj.quantity_in_stock.trim() || isNaN(Number(productObj.quantity_in_stock))) return 'Số lượng tồn không hợp lệ!';
     return null;
-  }
+  };
 
   const uploadProductImagesIfPresent = async (files, productId) => {
     if (!files || files.length === 0) return;
 
     let formData = new FormData();
-    files.forEach((file, index) => {
-      if (file) formData.append(`product_pictures[${index}]`, file);
+    files.forEach((file) => {
+      if (file) formData.append('product_picture', file); // Ensure the field name matches the backend
     });
 
     await productService.updateProductPictures(productId, formData);
@@ -141,6 +108,46 @@ export default function EditProductModal({ closeModal, extraObject }) {
       }
     }
   };
+
+  async function saveProduct() {
+    const errorMessage = validateProduct(productObj);
+    if (errorMessage) {
+      setErrorMessage(errorMessage);
+      return;
+    }
+    try {
+      const newProduct = {
+        product_name: productObj.product_name,
+        description: productObj.description,
+        price: Number(productObj.price),
+        quantity_in_stock: Number(productObj.quantity_in_stock),
+        category_id: Number(productObj.category_id),
+        supplier_id: Number(productObj.supplier_id),
+      };
+
+      // Update product details
+      await productService.updateProduct(extraObject[0].product_id, newProduct);
+
+      // Upload new product images if present
+      if (files.length > 0) {
+        await uploadProductImagesIfPresent(files, extraObject[0].product_id);
+      }
+
+      // Update existing images if changed
+      await updateExistingImages(existingImages);
+
+      // Fetch updated products
+      dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
+
+      // Show success notification
+      dispatch(showNotification({ message: 'Cập nhật sản phẩm thành công!', status: 1 }));
+      closeModal();
+    } catch (err) {
+      console.log('err: ', err);
+      // Show error notification
+      dispatch(showNotification({ message: 'Có lỗi xảy ra khi chỉnh sửa thông tin.', status: 0 }));
+    }
+  }
 
   return (
     <>
