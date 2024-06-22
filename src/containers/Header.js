@@ -9,6 +9,9 @@ import { openRightDrawer } from '../features/common/rightDrawerSlice';
 import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil'
 
 import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
+import { userService } from '../services/UserService'
+import { BASE_URL_IMG_USER } from '../services/config'
+import { adminLocalStorage } from '../services/LocalService'
 
 
 function Header(){
@@ -16,7 +19,15 @@ function Header(){
     const dispatch = useDispatch()
     const {noOfNotifications, pageTitle} = useSelector(state => state.header)
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"))
-
+    const [userAvt, setUserAvt] = useState('')
+    useEffect(() => { 
+        userService.getUserID(27).then((res) => { 
+            setUserAvt(res.data.avatar)
+         }).catch((err) => { 
+            console.log('err: ', err);
+            
+          })
+    }, [])
     useEffect(() => {
         themeChange(false)
         if(currentTheme === null){
@@ -37,7 +48,7 @@ function Header(){
 
 
     function logoutUser(){
-        localStorage.clear();
+        adminLocalStorage.remove()
         window.location.href = '/'
     }
 
@@ -80,19 +91,19 @@ function Header(){
 
 
                 {/* Notification icon */}
-                <button className="btn btn-ghost ml-4  btn-circle" onClick={() => openNotification()}>
+                {/* <button className="btn btn-ghost ml-4  btn-circle" onClick={() => openNotification()}>
                     <div className="indicator">
                         <BellIcon className="h-6 w-6"/>
                         {noOfNotifications > 0 ? <span className="indicator-item badge badge-secondary badge-sm">{noOfNotifications}</span> : null }
                     </div>
-                </button>
+                </button> */}
 
 
                 {/* Profile icon, opening menu on click */}
                 <div className="dropdown dropdown-end ml-4">
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
-                        <img src="https://placeimg.com/80/80/people" alt="profile" />
+                        <img src={BASE_URL_IMG_USER +  userAvt} alt="profile" />
                         </div>
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
@@ -102,7 +113,6 @@ function Header(){
                             <span className="badge">New</span>
                             </Link>
                         </li>
-                        <li className=''><Link to={'/app/settings-billing'}>Bill History</Link></li>
                         <div className="divider mt-0 mb-0"></div>
                         <li><a onClick={logoutUser}>Logout</a></li>
                     </ul>

@@ -5,12 +5,14 @@ import { openModal } from '../common/modalSlice'
 import TitleCard from '../../components/Cards/TitleCard'
 import { productService } from '../../services/ProductService'
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Pagination } from 'antd'
+import { Avatar, Pagination,Tooltip } from 'antd'
 import { BASE_URL_IMG_PRD } from '../../services/config'
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
 import { fetchProducts } from './AsyncThunkAction'
 import { setCurrentPage } from './productSlice'
+import ProductImage from './ProductImage'
+
 const TopSideButtons = () => {
     const dispatch = useDispatch()
     const openAddNewLeadModal = () => {
@@ -76,9 +78,23 @@ export default function Products() {
                                         <div className="flex items-center space-x-3">
                                             <div className="avatar">
                                                 <div className="mask mask-squircle w-20 h-20">
-                                                    {prd?.product_picture == null ? <Avatar icon={<UserOutlined />} /> : <img src={ BASE_URL_IMG_PRD + prd?.product_picture} alt="Avatar" />}
+                                                    <ProductImage products={prd} />
                                                 </div>
                                             </div>
+                                            {prd?.product_images?.length > 1 && (
+                                                <div className="flex space-x-2 pt-10">
+                                                {prd.product_images.slice(1).map((image, index) => (
+                                                    <Tooltip key={index} title={<img src={`${BASE_URL_IMG_PRD}${image.image_url}`} alt="Additional" style={{ maxWidth: '130px', maxHeight: '130px' }} />}>
+                                                    <Avatar
+                                                        size={30}
+                                                        shape="square"
+                                                        src={`${BASE_URL_IMG_PRD}${image.image_url}`}
+                                                        alt={`Additional ${index + 1}`}
+                                                    />
+                                                    </Tooltip>
+                                                ))}
+                                                </div>
+                                            )}
                                         </div>
                                     </td>
                                      <td>{prd?.product_name}</td>

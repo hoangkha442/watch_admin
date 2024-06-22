@@ -11,7 +11,7 @@ function Login(){
 
     const INITIAL_LOGIN_OBJ = {
         password : "123",
-        email : "kha@gmail.com"
+        email : "kha.ch@gmail.com"
     }
 
     const [loading, setLoading] = useState(false)
@@ -35,14 +35,19 @@ function Login(){
         if(loginObj.password.trim() === "")return setErrorMessage("Password is required!")
         else{
             Auth.login(loginObj).then((res) => {
-                adminLocalStorage.set(res.data?.token);
-                setIsLogin(true)
-                setLoading(true)
-                openNotificationWithIcon('success', 'Đăng nhập thành công!', 'Chào mừng bạn đến với trang quản lý M-Equipment.')
-                setTimeout(() => {
-                    navigate('/app/dashboard')
-                    window.location.reload()
-                }, 1500);                                    
+                console.log('res: ', res);
+                if(res.data.role === 'admin'){
+                    adminLocalStorage.set(res.data?.token);
+                    setIsLogin(true)
+                    setLoading(true)
+                    openNotificationWithIcon('success', 'Đăng nhập thành công!', 'Chào mừng bạn đến với trang quản lý M-Equipment.')
+                    setTimeout(() => {
+                        navigate('/app/dashboard')
+                        window.location.reload()
+                    }, 1500);                                    
+                }else{
+                    openNotificationWithIcon('error', 'Bạn không có quyền truy cập!', 'Tài khoản của bạn không phải là tài khoản của Admin!')
+                }
             })
             .catch((err) => { 
                 setLoading(false)

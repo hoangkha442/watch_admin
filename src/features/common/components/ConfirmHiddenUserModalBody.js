@@ -8,11 +8,13 @@ import { fetchProducts } from '../../products/AsyncThunkAction';
 import { fetchSuppliers } from '../../supplier/supplierSlice';
 import { fetchCategories } from '../../productCategories/categorySlice';
 import { fetchUsers } from '../../users/userSlice';
+import { fetchAdmin } from '../../settings/team/teamSlice';
 
 export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) {
     const dispatch = useDispatch();
     const currentPageProduct = useSelector((state) => state.products.currentPage);
     const currentPageUsers = useSelector((state) => state.users.currentPage);
+    const currentPage = useSelector((state) => state.teams.currentPage);
 
     const { message, type, index } = extraObject;
     const user_id = index 
@@ -21,6 +23,7 @@ export default function ConfirmHiddenUserModalBody({ extraObject, closeModal }) 
             userService.hiddenUser(user_id).then((res) => { 
                 dispatch(showNotification({message : "Đã ẩn người dùng thành công", status : 1}))
                 dispatch(fetchUsers({ currentPage: currentPageUsers, sizeItem: 5}))
+                dispatch(fetchAdmin({ currentPage: currentPage, sizeItem: 5}))
             })
             .catch((err) => { 
                 console.log('err: ', err);

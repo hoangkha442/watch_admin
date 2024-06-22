@@ -11,6 +11,7 @@ import { showNotification } from '../common/headerSlice'
 import { userService } from "../../services/UserService.jsx"
 import { Avatar, Pagination} from "antd"
 import { fetchUsers, setCurrentPage } from "./userSlice.js"
+import { BASE_URL_IMG_USER } from "../../services/config.jsx"
 
 const TopSideButtons = () => {
     const dispatch = useDispatch()
@@ -29,7 +30,6 @@ const TopSideButtons = () => {
 function Users(){
     const currentPage = useSelector((state) => state.users.currentPage);
     const users = useSelector((state) => state.users.users);
-    console.log('users: ', users);
     const [sizeItem, setSizeItem] = useState(5);
     const dispatch = useDispatch()
     useEffect(() => {
@@ -80,7 +80,6 @@ function Users(){
                     </tr>
                     </thead>
                     <tbody>
-                        {/* .filter(order => order.status == 'Cancel') */}
                         {
                            users?.data?.filter(u => u.role == 'customer')?.map((user, k) => { 
                                 return(
@@ -89,7 +88,7 @@ function Users(){
                                             <div className="flex items-center space-x-3">
                                                 <div className="avatar">
                                                     <div className="mask mask-squircle w-12 h-12">
-                                                        {user?.avatar == null ? <Avatar icon={<UserOutlined />} /> : <img src={user?.avatar} alt="Avatar" />}
+                                                        {user?.avatar == null ? <Avatar icon={<UserOutlined />} /> : <img src={BASE_URL_IMG_USER + user?.avatar} alt="Avatar" />}
                                                     </div>
                                                 </div>
                                                 <div>
@@ -117,7 +116,6 @@ function Users(){
             </div>
             <div className="text-center">
                 <Pagination defaultCurrent={1} current={currentPage} onChange={onChange} total={users?.totalPage * 10}/>
-
             </div>
             </TitleCard>
         </>
