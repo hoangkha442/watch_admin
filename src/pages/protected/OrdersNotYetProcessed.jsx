@@ -6,7 +6,7 @@ import OrdersNotYetProcessed from '../../features/ordersNotYetProcessed'
 function InternalPage(){
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Pending"}))
+        dispatch(setPageTitle({ title : "Chưa xử lí"}))
       }, [])
 
 

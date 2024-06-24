@@ -48,12 +48,12 @@ export default function EditCategoryModal({ closeModal, extraObject }) {
 };
   return (
     <>
-      <InputText defaultValue={cateObj.category_name} updateType="category_name" labelTitle="Họ tên" updateFormValue={updateFormValue} containerStyle="mt-4" />
-      <InputText type="description" defaultValue={cateObj.description} updateType="description" labelTitle="description" updateFormValue={updateFormValue} containerStyle="mt-4" />
+      <InputText defaultValue={cateObj.category_name} updateType="category_name" labelTitle="Tên danh mục" updateFormValue={updateFormValue} containerStyle="mt-4" />
+      <InputText type="description" defaultValue={cateObj.description} updateType="description" labelTitle="Mô tả" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
-        <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-        <button className="btn btn-primary px-6" onClick={saveNewCate}>Save</button>
+        <button className="btn btn-ghost" onClick={() => closeModal()}>Hủy bỏ</button>
+        <button className="btn btn-primary px-6" onClick={saveNewCate}>Lưu</button>
       </div>
     </>
   );

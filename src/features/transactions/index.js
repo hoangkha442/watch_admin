@@ -12,9 +12,10 @@ import ViewfinderCircleIcon from '@heroicons/react/24/outline/ViewfinderCircleIc
 import FunnelIcon from '@heroicons/react/24/outline/FunnelIcon';
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon';
 import { productService } from '../../services/ProductService';
+import { BASE_URL_IMG_USER } from '../../services/config';
 
 // Dummy FILTER_OPTIONS for demonstration
-const FILTER_OPTIONS = ['Ngân hàng', 'Thanh toán khi nhận hàng'];
+const FILTER_OPTIONS = ['COD', 'Bank Transfer'];
 
 const TopSideButtons = ({ setSearchText, applyFilter, removeFilter, filterParam }) => {
     const showFiltersAndApply = (filter) => {
@@ -27,7 +28,7 @@ const TopSideButtons = ({ setSearchText, applyFilter, removeFilter, filterParam 
 
     return (
         <div className="flex justify-end items-center gap-4">
-            <SearchBar placeholderText={'Search email ...'} setSearchText={setSearchText} />
+            <SearchBar placeholderText={'Tìm kiếm bằng email ...'} setSearchText={setSearchText} />
             {filterParam && (
                 <button onClick={removeAppliedFilter} className="btn btn-xs btn-active btn-ghost normal-case">
                     {filterParam} <XMarkIcon className="w-4 h-4 ml-2" />
@@ -35,14 +36,14 @@ const TopSideButtons = ({ setSearchText, applyFilter, removeFilter, filterParam 
             )}
             <div className="dropdown dropdown-end">
                 <label tabIndex={1} className="btn btn-sm btn-outline flex items-center">
-                    <FunnelIcon className="w-5 h-5 mr-2"/>Filter
+                    <FunnelIcon className="w-5 h-5 mr-2"/>Bộ lọc
                 </label>
                 <ul tabIndex={2} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52  z-10">
                     {FILTER_OPTIONS.map((option, index) => (
                         <li key={index}><a onClick={() => showFiltersAndApply(option)}>{option}</a></li>
                     ))}
                     <div className="divider my-2"></div>
-                    <li><a onClick={removeAppliedFilter}>Remove Filter</a></li>
+                    <li><a onClick={removeAppliedFilter}>Xóa bộ lọc</a></li>
                 </ul>
             </div>
         </div>
@@ -119,7 +120,7 @@ function Transactions() {
                                             <div className="avatar">
                                                 <div className="mask mask-circle w-12 h-12">
                                                     {transaction.orders.users.avatar ?
-                                                        <img src={transaction.orders.users.avatar} alt="Avatar" /> :
+                                                        <img src={BASE_URL_IMG_USER + transaction.orders.users.avatar} alt="Avatar" /> :
                                                         <Avatar className="w-full h-full" icon={<UserOutlined />} />}
                                                 </div>
                                             </div>

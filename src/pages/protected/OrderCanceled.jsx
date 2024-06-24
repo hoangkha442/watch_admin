@@ -6,7 +6,7 @@ import OrderCanceled from '../../features/orderCanceled'
 function InternalPage(){
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Cancel"}))
+        dispatch(setPageTitle({ title : "Đơn hàng hủy"}))
       }, [])
 
 

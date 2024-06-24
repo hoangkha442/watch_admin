@@ -8,17 +8,17 @@ import { fetchOrdersNYP } from './orderNYSlice'; // Ensure this thunk is properl
 import { productService } from '../../services/ProductService';
 import { BASE_URL_IMG_PRD } from '../../services/config';
 import ViewfinderCircleIcon from '@heroicons/react/24/outline/ViewfinderCircleIcon';
-import { MODAL_BODY_TYPES } from '../../utils/globalConstantUtil';
 import { openModal } from '../common/modalSlice';
-import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
+import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
+import { MODAL_BODY_TYPES } from '../../utils/globalConstantUtil';
 
-
-const formatProductDescription = (description) => description?.length > 20 ? `${description.slice(0, 20)}...` : description;
+const formatProductDescription = (description) => 
+  description?.length > 20 ? `${description.slice(0, 20)}...` : description;
 
 const OrdersNotYetProcessed = () => {
   const [ordersDetails, setOrdersDetails] = useState([]);
+  console.log('ordersDetails: ', ordersDetails);
   const orders = useSelector((state) => state.orderNYP.ordersNYP);
-  console.log('orders: ', orders);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,11 +30,18 @@ const OrdersNotYetProcessed = () => {
       try {
         const shippingData = await productService.getShipping();
         const orderDetailsData = await productService.getOrderDetail();
-        const combinedData = orders.map(order => ({
-          ...order,
-          ...orderDetailsData.data.find(detail => detail.order_id === order.order_id),
-          shipping_address: shippingData.data.find(shipping => shipping.order_id === order.order_id)?.shipping_address,
-        }));
+
+        const combinedData = orders.map(order => {
+          const orderDetail = orderDetailsData.data.find(detail => detail.order_id === order.order_id);
+          const shippingDetail = shippingData.data.find(shipping => shipping.order_id === order.order_id);
+
+          return {
+            ...order,
+            products: orderDetail ? [orderDetail] : [], // Đảm bảo products là mảng
+            shipping_address: shippingDetail?.shipping_address || 'N/A',
+          };
+        });
+
         setOrdersDetails(combinedData);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -44,12 +51,17 @@ const OrdersNotYetProcessed = () => {
     if (orders.length) fetchData();
   }, [orders]);
 
-  const openEditModal = (detail) =>{
-    dispatch(openModal({ title: "Cập nhật trạng thái đơn hàng!", bodyType: MODAL_BODY_TYPES.EDIT_ORDERNYP, extraObject: detail }))
-  }
+  const openEditModal = (detail) => {
+    dispatch(openModal({
+      title: "Cập nhật trạng thái đơn hàng!",
+      bodyType: MODAL_BODY_TYPES.EDIT_ORDERNYP,
+      extraObject: detail
+    }));
+  };
+
   return (
     <>
-      <TitleCard title={`${ordersDetails.length} Đơn hàng chưa xử lí`} topMargin="mt-2">
+      <TitleCard title={`${ordersDetails.length} Đơn hàng chưa xử lý`} topMargin="mt-2">
         <div className="overflow-x-auto w-full">
           <table className="table w-full">
             <thead>
@@ -64,35 +76,46 @@ const OrdersNotYetProcessed = () => {
               </tr>
             </thead>
             <tbody>
-              {ordersDetails.map((order, index) => (
-                <tr key={index}>
-                  <td>
-                  <div className="flex items-center space-x-3">
+              {ordersDetails.map((order, index) => {
+                const product = order.products[0] || {}; // Đảm bảo products[0] tồn tại
+                const user = order.users || {}; // Đảm bảo user tồn tại
+
+                return (
+                  <tr key={index}>
+                    <td>
+                      <div className="flex items-center space-x-3">
                         <div className="avatar">
-                          <div className="mask mask-squircle w-20 h-20">
-                            {order?.products?.product_picture == null ? <Avatar icon={<UserOutlined />} /> : <img src={BASE_URL_IMG_PRD + order?.products?.product_picture} alt="Product" />}
-                          </div>
+                          {/* <div className="mask mask-squircle w-20 h-20">
+                            {product.product_picture ? (
+                              <img src={BASE_URL_IMG_PRD + product.product_picture} alt="Product" />
+                            ) : (
+                              <Avatar icon={<UserOutlined />} />
+                            )}
+                          </div> */}
                         </div>
                         <div>
-                          <div className="font-bold">{order?.products?.product_name}</div>
-                          <div className="text-sm opacity-50">{formatProductDescription(order?.products?.description)}</div>
+                          <div className="font-bold">{product?.products?.product_name || 'N/A'}</div>
+                          <div className="text-sm opacity-50">{formatProductDescription(product?.products?.description)}</div>
                         </div>
                       </div>
-                  </td>
-                  <td>{order?.users?.full_name}</td>
-                  <td>{order?.users?.phone}</td>
-                  <td>{order.shipping_address}</td>
-                  <td>{moment(order?.order_date).format("D MMM YYYY")}</td>
-                  <td>
-                    <button className='badge badge-accent font-medium py-3 px-5'>
-                      {order?.status}
-                    </button>
-                  </td>
-                  <td>
-                      <button className="btn btn-sm btn-outline" onClick={() => openEditModal(order)}><PencilSquareIcon className="w-5"/></button>
                     </td>
-                </tr>
-              ))}
+                    <td>{user.full_name || 'N/A'}</td>
+                    <td>{user.phone || 'N/A'}</td>
+                    <td>{order.shipping_address || 'N/A'}</td>
+                    <td>{order.order_date ? moment(order.order_date).format("D MMM YYYY") : 'N/A'}</td>
+                    <td>
+                      <span className={`badge font-medium py-3 px-5 ${order.status === 'pending' ? 'badge-warning' : 'badge-secondary'}`}>
+                        {order.status || 'N/A'}
+                      </span>
+                    </td>
+                    <td>
+                      <button className="btn btn-sm btn-outline" onClick={() => openEditModal(order)}>
+                        <PencilSquareIcon className="w-5" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

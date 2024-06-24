@@ -3,7 +3,7 @@ import { https } from "./config";
 export const userService = {
   getUser: () => https.get('/user'),
   getMyInfor: () => https.get('/user/get-info'),
-  getUserID: (userId) => https.get(`/user/${userId}`),
+  getUserID: (userId) => https.get(`/user/user/${userId}`),
   getUserToken: () => https.get('/user/profile'),
   getUserPagination: (page, pageSize) => https.get(`/user/pagination?page=${page}&pageSize=${pageSize}`),
   getAdminPagination: (page, pageSize) => https.get(`/user/pagination-admin?page=${page}&pageSize=${pageSize}`),

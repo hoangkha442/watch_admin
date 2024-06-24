@@ -21,7 +21,7 @@ const TopSideButtons = () => {
 
     return(
         <div className="inline-block float-right">
-            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => addNewTeamMember()}>Invite New</button>
+            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => addNewTeamMember()}>Thêm mới</button>
         </div>
     )
 }
@@ -59,7 +59,7 @@ function Team(){
     return(
         <>
             
-            <TitleCard title="Active Members" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>
+            <TitleCard title="Đội ngũ quản trị viên" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>
 
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">

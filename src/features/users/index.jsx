@@ -22,7 +22,7 @@ const TopSideButtons = () => {
 
     return(
         <div className="inline-block float-right">
-            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Thêm mới</button>
         </div>
     )
 }
@@ -48,6 +48,7 @@ function Users(){
         dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Bạn có muốn xóa người dùng này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.USER_DELETE, index}}))
     }
+    
     const hiddenUsers = (index) => {
         dispatch(openModal({title : "Xác nhận", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
         extraObject : { message : `Bạn có muốn ẩn người dùng này không?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.USER_HIDDEN, index}}))

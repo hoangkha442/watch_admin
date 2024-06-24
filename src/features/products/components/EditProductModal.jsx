@@ -7,6 +7,7 @@ import { productService } from '../../../services/ProductService';
 import TextAreaInput from '../../../components/Input/TextAreaInput';
 import { fetchProducts } from '../AsyncThunkAction';
 import SelectBox from '../../../components/Input/SelectBox';
+import { BASE_URL_IMG_PRD } from '../../../services/config';
 
 const INITIAL_PRODUCT_OBJ = {
   product_name: '',
@@ -15,6 +16,7 @@ const INITIAL_PRODUCT_OBJ = {
   quantity_in_stock: '',
   category_id: 1,
   supplier_id: 1,
+  promotion_percentage: '0', // Thêm trường promotion_percentage
 };
 
 export default function EditProductModal({ closeModal, extraObject }) {
@@ -30,6 +32,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
     ...extraObject[0],
     price: String(extraObject[0].price),
     quantity_in_stock: String(extraObject[0].quantity_in_stock),
+    promotion_percentage: String(extraObject[0].promotion_percentage || '0'), // Thêm giá trị promotion_percentage vào productObj
   });
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -85,6 +88,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
     if (!productObj.description.trim()) return 'Mô tả sản phẩm không được bỏ trống!';
     if (!productObj.price.trim() || isNaN(Number(productObj.price))) return 'Giá sản phẩm không hợp lệ!';
     if (!productObj.quantity_in_stock.trim() || isNaN(Number(productObj.quantity_in_stock))) return 'Số lượng tồn không hợp lệ!';
+    if (!productObj.promotion_percentage.trim() || isNaN(Number(productObj.promotion_percentage))) return 'Tỷ lệ khuyến mãi không hợp lệ!';
     return null;
   };
 
@@ -123,6 +127,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
         quantity_in_stock: Number(productObj.quantity_in_stock),
         category_id: Number(productObj.category_id),
         supplier_id: Number(productObj.supplier_id),
+        promotion_percentage: Number(productObj.promotion_percentage),
       };
 
       // Update product details
@@ -152,6 +157,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
       <InputText defaultValue={productObj?.product_name} updateType="product_name" labelTitle="Tên sản phẩm" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <TextAreaInput defaultValue={productObj?.description} updateType="description" labelTitle="Thông tin mô tả" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <InputText defaultValue={productObj?.price} updateType="price" labelTitle="Giá sản phẩm" updateFormValue={updateFormValue} containerStyle="mt-4" />
+      <InputText defaultValue={productObj?.promotion_percentage} updateType="promotion_percentage" labelTitle="Tỷ lệ khuyến mãi (%)" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <div className="form-control w-full mt-4">
         <label className="label">
           <span className="label-text text-base-content">Hình ảnh hiện có</span>
@@ -159,7 +165,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
         <div className="grid grid-cols-3 gap-4">
           {existingImages.map((image, index) => (
             <div key={index} className="flex flex-col items-center">
-              <img src={`http://localhost:8080/public/img/prds/${image.image_url}`} alt="Product" className="w-20 h-20 mb-2" />
+              <img src={`${BASE_URL_IMG_PRD + image.image_url}`} alt="Product" className="w-20 h-20 mb-2" />
               <input
                 type="file"
                 accept="image/*"
@@ -169,19 +175,7 @@ export default function EditProductModal({ closeModal, extraObject }) {
             </div>
           ))}
         </div>
-        {/* <label className="label mt-4">
-          <span className="label-text text-base-content">Thêm hình ảnh mới</span>
-        </label>
-        {files.map((file, index) => (
-          <input
-            key={index}
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleFileChange(e, index)}
-            className="input input-bordered w-full pt-2 mb-2"
-          />
-        ))}
-        <button type="button" onClick={addImageInput} className="btn btn-secondary mt-2">Thêm ảnh</button> */}
+
       </div>
       <InputText defaultValue={productObj?.quantity_in_stock} updateType="quantity_in_stock" labelTitle="Số lượng tồn kho" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <div className="flex items-center gap-2">
@@ -206,8 +200,8 @@ export default function EditProductModal({ closeModal, extraObject }) {
       </div>
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
-        <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-        <button className="btn btn-primary px-6" onClick={saveProduct}>Save</button>
+        <button className="btn btn-ghost" onClick={() => closeModal()}>Hủy bỏ</button>
+        <button className="btn btn-primary px-6" onClick={saveProduct}>Lưu</button>
       </div>
     </>
   );

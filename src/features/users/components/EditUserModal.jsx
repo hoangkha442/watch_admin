@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InputText from '../../../components/Input/InputText';
 import ErrorText from '../../../components/Typography/ErrorText';
@@ -7,24 +7,19 @@ import { userService } from '../../../services/UserService';
 import { fetchUsers } from '../userSlice';
 
 export default function EditUserModal({ closeModal, extraObject }) {
-  const currentPage = useSelector((state) => state.users.currentPage);
   const dispatch = useDispatch();
-
+  const currentPage = (useSelector(state => state.users.currentPage))
   const [userObj, setUserObj] = useState({
-    full_name: '',
-    email: '',
-    password: '',
-    phone: '',
+    full_name: extraObject.full_name || '',
+    email: extraObject.email || '',
+    phone: extraObject.phone || '',
   });
-
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Đồng bộ userObj với extraObject khi extraObject thay đổi
   useEffect(() => {
     setUserObj({
       full_name: extraObject.full_name || '',
       email: extraObject.email || '',
-      password: '',
       phone: extraObject.phone || '',
     });
   }, [extraObject]);
@@ -36,7 +31,7 @@ export default function EditUserModal({ closeModal, extraObject }) {
 
   const saveUser = () => {
     const validateEmail = (email) => {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(String(email).toLowerCase());
     };
 
@@ -53,13 +48,12 @@ export default function EditUserModal({ closeModal, extraObject }) {
         ...extraObject,
         full_name: userObj.full_name,
         email: userObj.email,
-        password: userObj.password,
         phone: userObj.phone,
       };
       userService.updateUser(extraObject.user_id, updatedUser)
         .then((res) => {
           dispatch(showNotification({ message: 'Chỉnh sửa thông tin người dùng thành công!', status: 1 }));
-          dispatch(fetchUsers({ currentPage, sizeItem: 5 }));
+          dispatch(fetchUsers({currentPage, sizeItem: 5}))
           closeModal();
         })
         .catch((err) => {
@@ -72,7 +66,7 @@ export default function EditUserModal({ closeModal, extraObject }) {
   return (
     <>
       <InputText
-        value={userObj.full_name}
+        defaultValue={userObj.full_name}
         updateType="full_name"
         labelTitle="Họ tên"
         updateFormValue={updateFormValue}
@@ -80,23 +74,14 @@ export default function EditUserModal({ closeModal, extraObject }) {
       />
       <InputText
         type="email"
-        value={userObj.email}
+        defaultValue={userObj.email}
         updateType="email"
         labelTitle="Email"
         updateFormValue={updateFormValue}
         containerStyle="mt-4"
       />
       <InputText
-        type="password"
-        value={userObj.password}
-        placeholder='***********'
-        updateType="password"
-        labelTitle="Mật khẩu"
-        updateFormValue={updateFormValue}
-        containerStyle="mt-4"
-      />
-      <InputText
-        value={userObj.phone}
+        defaultValue={userObj.phone}
         updateType="phone"
         labelTitle="Số điện thoại"
         updateFormValue={updateFormValue}
@@ -104,8 +89,8 @@ export default function EditUserModal({ closeModal, extraObject }) {
       />
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
-        <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-        <button className="btn btn-primary px-6" onClick={saveUser}>Save</button>
+        <button className="btn btn-ghost" onClick={() => closeModal()}>Hủy bỏ</button>
+        <button className="btn btn-primary px-6" onClick={saveUser}>Lưu</button>
       </div>
     </>
   );

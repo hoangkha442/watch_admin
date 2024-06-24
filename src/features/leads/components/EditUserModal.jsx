@@ -73,8 +73,8 @@ export default function EditUserModal({ closeModal, extraObject }) {
       <InputText defaultValue={leadObj.phone} updateType="phone" labelTitle="Số điện thoại" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
-        <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-        <button className="btn btn-primary px-6" onClick={saveNewLead}>Save</button>
+        <button className="btn btn-ghost" onClick={() => closeModal()}>Hủy bỏ</button>
+        <button className="btn btn-primary px-6" onClick={saveNewLead}>Lưu</button>
       </div>
     </>
   );

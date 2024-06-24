@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import TitleCard from "../../../components/Cards/TitleCard";
+import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import TitleCard from '../../../components/Cards/TitleCard';
 import { showNotification } from '../../common/headerSlice';
-import InputText from '../../../components/Input/InputText';
-import ErrorText from "../../../components/Typography/ErrorText";
-import { userService } from "../../../services/UserService";
-import { BASE_URL_IMG_USER } from "../../../services/config";
+import ErrorText from '../../../components/Typography/ErrorText';
+import { userService } from '../../../services/UserService';
+import { BASE_URL_IMG_USER } from '../../../services/config';
 
 function ProfileSettings() {
   const [errorMessage, setErrorMessage] = useState('');
@@ -13,7 +12,6 @@ function ProfileSettings() {
     user_id: 0,
     full_name: '',
     email: '',
-    password: '',
     phone: '',
     avatar: '',
   });
@@ -27,12 +25,11 @@ function ProfileSettings() {
 
   const fetchUserData = async () => {
     try {
-      const res = await userService.getUserID(27);
+      const res = await userService.getMyInfor();
       setUserObj({
         user_id: res.data.user_id,
         full_name: res.data.full_name || '',
         email: res.data.email || '',
-        password: '', // Avoid storing password in state
         phone: res.data.phone || '',
         avatar: res.data.avatar || '',
       });
@@ -98,7 +95,7 @@ function ProfileSettings() {
         await userService.uploadAvatar(userObj.user_id, formData);
       }
 
-      dispatch(showNotification({ message: "Profile Updated", status: 1 }));
+      dispatch(showNotification({ message: 'Hồ sơ cá nhân đã cập nhật', status: 1 }));
       resetForm(); // Reset form after successful update
     } catch (error) {
       console.log('Error updating profile:', error);
@@ -114,24 +111,56 @@ function ProfileSettings() {
 
   return (
     <>
-      <TitleCard title="Profile Settings" topMargin="mt-2">
+      <TitleCard title="Cập nhật hồ sơ" topMargin="mt-2">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <InputText value={userObj?.full_name} updateType="full_name" labelTitle="Họ tên" name="full_name" updateFormValue={updateFormValue} containerStyle="mt-4" />
-          <InputText type="email" value={userObj?.email} updateType="email" labelTitle="Email" name="email" updateFormValue={updateFormValue} containerStyle="mt-4" />
-          <InputText type="password" value='' placeholder='***********' updateType="password" labelTitle="Mật khẩu" name="password" updateFormValue={updateFormValue} containerStyle="mt-4" />
-          <InputText value={userObj?.phone} updateType="phone" labelTitle="Số điện thoại" name="phone" updateFormValue={updateFormValue} containerStyle="mt-4" />
+          <div className={`form-control w-full mt-4`}>
+            <label className="label">
+              <span className="label-text text-base-content">Họ tên</span>
+            </label>
+            <input
+              type="text"
+              value={userObj.full_name}
+              placeholder="Họ tên"
+              onChange={(e) => updateFormValue({ updateType: 'full_name', value: e.target.value })}
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div className={`form-control w-full mt-4`}>
+            <label className="label">
+              <span className="label-text text-base-content">Email</span>
+            </label>
+            <input
+              type="email"
+              value={userObj.email}
+              placeholder="Email"
+              onChange={(e) => updateFormValue({ updateType: 'email', value: e.target.value })}
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div className={`form-control w-full mt-4`}>
+            <label className="label">
+              <span className="label-text text-base-content">Số điện thoại</span>
+            </label>
+            <input
+              type="text"
+              value={userObj.phone}
+              placeholder="Số điện thoại"
+              onChange={(e) => updateFormValue({ updateType: 'phone', value: e.target.value })}
+              className="input input-bordered w-full"
+            />
+          </div>
           <div className="form-control w-full mt-4">
             <label className="label">
-              <span className="label-text text-base-content">Avatar</span>
+              <span className="label-text text-base-content">Ảnh đại diện</span>
             </label>
             <button
               type="button"
               onClick={() => fileInputRef.current.click()}
               className="input input-bordered w-full flex items-center justify-center py-2 cursor-pointer"
             >
-              {avatarPreview || userObj?.avatar ? "Change Avatar" : "Upload Avatar"}
+              {avatarPreview || userObj.avatar ? 'Thay đổi ảnh đại diện' : 'Upload Avatar'}
             </button>
-            <input 
+            <input
               type="file"
               accept="image/*"
               onChange={handleFileChange}
@@ -140,15 +169,15 @@ function ProfileSettings() {
             />
             <div className="flex justify-center mt-4">
               {avatarPreview ? (
-                <img 
-                  src={URL.createObjectURL(avatarPreview)} 
-                  alt="Avatar Preview" 
+                <img
+                  src={URL.createObjectURL(avatarPreview)}
+                  alt="Avatar Preview"
                   className="rounded-full h-24 w-24 border-2 border-gray-300 shadow-sm"
                 />
               ) : userObj.avatar ? (
-                <img 
-                  src={`${BASE_URL_IMG_USER}${userObj.avatar}`} 
-                  alt="Current Avatar" 
+                <img
+                  src={`${BASE_URL_IMG_USER}${userObj.avatar}`}
+                  alt="Current Avatar"
                   className="rounded-full h-24 w-24 border-2 border-gray-300 shadow-sm"
                 />
               ) : (

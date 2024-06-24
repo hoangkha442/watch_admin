@@ -24,6 +24,7 @@ const Suppliers = lazy(() => import('../pages/protected/Suppliers'))
 const Orders = lazy(() => import('../pages/protected/Orders'))
 const OrderShipped = lazy(() => import('../pages/protected/OrderShipped'))
 const OrderCanceled = lazy(() => import('../pages/protected/OrderCanceled'))
+const HeaderUI = lazy(() => import('../pages/protected/HeaderUI'))
 // OrderCanceled
 // OrderShipped
 const OrdersNotYetProcessed = lazy(() => import('../pages/protected/OrdersNotYetProcessed'))
@@ -115,6 +116,10 @@ const routes = [
   {
     path: '/blank',
     component: Blank,
+  },
+  {
+    path: '/header-ui',
+    component: HeaderUI,
   },
 ]
 

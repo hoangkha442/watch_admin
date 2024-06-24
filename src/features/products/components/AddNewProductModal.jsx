@@ -16,6 +16,7 @@ const INITIAL_PRODUCT_OBJ = {
   quantity_in_stock: '',
   category_id: 1,
   supplier_id: 1,
+  promotion_percentage: '', // Added for promotion percentage
 };
 
 function AddNewProductModal({ closeModal }) {
@@ -65,27 +66,53 @@ function AddNewProductModal({ closeModal }) {
   };
 
   const validateAndSaveProduct = async () => {
-    if (files.length === 0 || files.some(file => !file)) return setErrorMessage("Hình ảnh không được bỏ trống");
-    if (!productObj.product_name.trim()) return setErrorMessage("Tên sản phẩm không được bỏ trống!");
-    if (!productObj.description.trim()) return setErrorMessage("Mô tả sản phẩm không được bỏ trống!");
-    if (!productObj.quantity_in_stock.trim()) return setErrorMessage("Số lượng tồn kho không được bỏ trống!");
-    else {
-      let formData = new FormData();
-      files.forEach((file, index) => {
-        formData.append('product_picture', file); // Ensure the field name matches
-      });
-      Object.entries(productObj).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      try {
-        await productService.postProduct(formData);
-        dispatch(showNotification({ message: 'Thêm sản phẩm thành công!', status: 1 }));
-        dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
-        closeModal();
-      } catch (error) {
-        console.error('Error saving product', error);
-        setErrorMessage('Có lỗi xảy ra khi lưu sản phẩm.'); // Displaying a user-friendly error message
-      }
+    // Validate files
+    if (files.length === 0 || files.some(file => !file)) {
+      return setErrorMessage("Hình ảnh không được bỏ trống");
+    }
+
+    // Validate product name
+    if (!productObj.product_name.trim()) {
+      return setErrorMessage("Tên sản phẩm không được bỏ trống!");
+    }
+
+    // Validate description
+    if (!productObj.description.trim()) {
+      return setErrorMessage("Mô tả sản phẩm không được bỏ trống!");
+    }
+
+    // Validate quantity in stock
+    if (!productObj.quantity_in_stock.trim() || isNaN(productObj.quantity_in_stock) || parseInt(productObj.quantity_in_stock) < 0) {
+      return setErrorMessage("Số lượng tồn kho phải là một số nguyên không âm!");
+    }
+
+    // Validate price
+    if (!productObj.price.trim() || isNaN(productObj.price) || parseFloat(productObj.price) < 0) {
+      return setErrorMessage("Giá sản phẩm phải là một số không âm!");
+    }
+
+    // Validate promotion percentage
+    if (!productObj.promotion_percentage.trim() || isNaN(productObj.promotion_percentage) || parseFloat(productObj.promotion_percentage) < 0 || parseFloat(productObj.promotion_percentage) > 100) {
+      return setErrorMessage("Phần trăm khuyến mãi phải là số trong khoảng 0-100!");
+    }
+
+    // All validations passed
+    let formData = new FormData();
+    files.forEach((file) => {
+      formData.append('product_picture', file); // Ensure the field name matches
+    });
+    Object.entries(productObj).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    try {
+      await productService.postProduct(formData);
+      dispatch(showNotification({ message: 'Thêm sản phẩm thành công!', status: 1 }));
+      dispatch(fetchProducts({ currentPage, sizeItem: 4 }));
+      closeModal();
+    } catch (error) {
+      console.error('Error saving product', error);
+      setErrorMessage('Có lỗi xảy ra khi lưu sản phẩm.');
     }
   };
 
@@ -108,8 +135,9 @@ function AddNewProductModal({ closeModal }) {
       </div>
       <InputText updateType="product_name" labelTitle="Tên sản phẩm" updateFormValue={updateFormValue} containerStyle="mt-4" />
       <TextAreaInput type="text" updateType="description" labelTitle="Mô tả sản phẩm" updateFormValue={updateFormValue} containerStyle="mt-4" />
-      <InputText type="text" updateType="price" labelTitle="Giá sản phẩm" updateFormValue={updateFormValue} containerStyle="mt-4" />
-      <InputText type="text" updateType="quantity_in_stock" labelTitle="Số lượng tồn kho" updateFormValue={updateFormValue} containerStyle="mt-4" />
+      <InputText type="number" updateType="price" labelTitle="Giá sản phẩm" updateFormValue={updateFormValue} containerStyle="mt-4" />
+      <InputText type="number" updateType="quantity_in_stock" labelTitle="Số lượng tồn kho" updateFormValue={updateFormValue} containerStyle="mt-4" />
+      <InputText type="number" updateType="promotion_percentage" labelTitle="Phần trăm khuyến mãi" updateFormValue={updateFormValue} containerStyle="mt-4" placeholder="0-100" />
       <div className="flex items-center gap-2">
         <SelectBox
           labelTitle="Danh mục sản phẩm"
@@ -133,8 +161,8 @@ function AddNewProductModal({ closeModal }) {
 
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
-        <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-        <button className="btn btn-primary px-6" onClick={() => validateAndSaveProduct()}>Save</button>
+        <button className="btn btn-ghost" onClick={() => closeModal()}>Hủy bỏ</button>
+        <button className="btn btn-primary px-6" onClick={() => validateAndSaveProduct()}>Lưu</button>
       </div>
     </>
   );

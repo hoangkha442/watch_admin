@@ -52,8 +52,8 @@ function AddNewCategoryModal({closeModal}){
 
             <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
             <div className="modal-action">
-                <button  className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-                <button  className="btn btn-primary px-6" onClick={() => saveNewLead()}>Save</button>
+                <button  className="btn btn-ghost" onClick={() => closeModal()}>Hủy bỏ</button>
+                <button  className="btn btn-primary px-6" onClick={() => saveNewLead()}>Lưu</button>
             </div>
         </>
     )

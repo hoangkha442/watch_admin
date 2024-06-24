@@ -110,12 +110,12 @@ const routes = [
   {
     path: '', //no url needed as this has submenu
     icon: <DocumentDuplicateIcon className={`${iconClasses} inline` }/>, 
-    name: 'Pages',
+    name: 'Giao diện người dùng',
     submenu : [
       {
-        path: '/login',
+        path: '/app/header-ui',
         icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
-        name: 'Login',
+        name: 'Header',
       },
       // {
       //   path: '/register', //url
@@ -142,12 +142,12 @@ const routes = [
   {
     path: '', //no url needed as this has submenu
     icon: <Cog6ToothIcon className={`${iconClasses} inline` }/>, 
-    name: 'Settings',
+    name: 'Cài đặt',
     submenu : [
       {
         path: '/app/settings-profile', //url
         icon: <UserIcon className={submenuIconClasses}/>, 
-        name: 'Profile',
+        name: 'Hồ sơ',
       },
       // {
       //   path: '/app/settings-billing',
@@ -157,7 +157,7 @@ const routes = [
       {
         path: '/app/settings-team', 
         icon: <UsersIcon className={submenuIconClasses}/>, 
-        name: 'Team Members',
+        name: 'Quản trị viên',
       },
     ]
   },
